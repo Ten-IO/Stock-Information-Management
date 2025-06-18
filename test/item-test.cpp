@@ -14,7 +14,7 @@ int main() {
 };
     // double ptr = &prod3.unitPrice; // pointer is one data type for addr
 
-    std::cout <<"1- "<< prod1.id <<"\n2-"<< prod1.unitPrice << "\n3- " << prod1.units << "\n4- " << prod1.category;  
-    std::cout <<"1- "<< prod2->id <<"\n2-"<< prod2->unitPrice << "\n3- " << (*prod2).units << "\n4- " << (*prod2).category;  
-    std::cout <<"1- "<< prod3.id <<"\n2-"<< (&prod3.unitPrice) << "\n3- " << prod3.units << "\n4- " << prod3.category;  
+    std::cout <<"1- "<< prod1.id <<" "<< prod1.unitPrice << " "<<prod1.units << " "<<prod1.category << "\n";
+    std::cout <<"2- "<< prod2->id << " "<<prod2->unitPrice <<" "<< (*prod2).units << " "<<(*prod2).category << "\n";  
+    std::cout <<"3- "<< prod3.id <<" "<< (&prod3.unitPrice) <<" "<< prod3.units << " "<<prod3.category << "\n";  
 }
