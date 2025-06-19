@@ -1,7 +1,7 @@
 #ifndef STOCK_H
 #define STOCK_H
 #include <creator.h>
-#include <new>
+#include <stock.h>
 #include <iostream>
 #include <reader.h>
 
