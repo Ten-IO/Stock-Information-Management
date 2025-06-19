@@ -1,5 +1,13 @@
 #include <stock.h>
 
+/**
+ * @brief divider, comparer, and recontructor for array
+ * @param Stock array converted from ListToArray()
+ * @param left hold start pos
+ * @param mid hold medium pos
+ * @param right hold end pos
+ * @return void
+ */
 void divideMerge(Stock arr[], int left, int mid, int right)
 {
     int i, j, k;
@@ -42,6 +50,13 @@ void divideMerge(Stock arr[], int left, int mid, int right)
     delete []rightSide;
 }
 
+/**
+ * @brief factory for sort, make changes to LinkedList
+ * @param List* point linkedlist
+ * @param pos1 starting point of arrangement
+ * @param pos2 end point of arrangement
+ * @return void
+ */
 void mergeSort(List *ls, int pos1, int pos2)
 {
     Stock *arr = ListToArr(ls);
@@ -56,6 +71,11 @@ void mergeSort(List *ls, int pos1, int pos2)
     }
 }
 
+/**
+ * @brief factory assister : turn array to static for quicker sort
+ * @param List* desired sort list
+ * @return array:Stock
+ */
 void mergeSort(Stock *arr, int pos1, int pos2)
 {
     if (pos1 < pos2)
@@ -69,6 +89,11 @@ void mergeSort(Stock *arr, int pos1, int pos2)
     }
 }
 
+/**
+ * @brief factory assister : turn array to static for quicker sort
+ * @param List* desired sort list
+ * @return array:Stock
+ */
 Stock *ListToArr(List *ls)
 {
     int max = ls->n;
@@ -83,3 +108,5 @@ Stock *ListToArr(List *ls)
     }
     return arr;
 }
+
+Stock *ArrToList(List *ls){}

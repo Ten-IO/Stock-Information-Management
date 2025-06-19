@@ -1,5 +1,11 @@
 #include <stock.h>
 
+/**
+ * @brief End-point insertion : similar to vector push_back.
+ * @param List* pointer to where item will be added
+ * @param Item info add to list
+ * @return void
+*/
 void addEnd(List *ls, Item data)
 {
     Stock *s = new Stock;

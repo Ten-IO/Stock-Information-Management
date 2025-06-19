@@ -1,6 +1,11 @@
 #include <stock.h>
 #include <iostream>
 
+/**
+ * @brief extract out of list
+ * @param List* point to LinkedList
+ * @return void
+ */
 void display(List *ls)
 {
     Stock *s = ls->head;

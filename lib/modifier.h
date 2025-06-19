@@ -1,6 +1,13 @@
 #include <stock.h>
 #include <iostream>
 
+/**
+ * @brief look for old info via `id` then update
+ * @param List* point to list
+ * @param oldData not wanted
+ * @param newData replace
+ * @return void
+ */
 void modifyViaID(List *ls, Item oldData, Item newData)
 {
     Stock *s = ls->head;
