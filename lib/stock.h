@@ -1,3 +1,5 @@
+#ifndef ITEM_H
+#define ITEM_H
 #include <item.h>
 
 struct Stock{
@@ -20,3 +22,4 @@ List *initList() {
 }
 
 
+#endif

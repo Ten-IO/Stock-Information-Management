@@ -1,6 +1,14 @@
+#ifndef DELETE_H
+#define DELETE_H
 #include <stock.h>
 #include <iostream>
 
+/**
+ * @brief Positional delete, pop out when you get that numerical position.
+ * @param List* pointer to where item will be added
+ * @param pos numeric point where you want to dispose
+ * @return void
+ */
 void deleteAtPos(List *ls, int pos)
 {
     if (ls->n == 0 || pos < 0 || pos >= ls->n)
@@ -31,3 +39,5 @@ void deleteAtPos(List *ls, int pos)
         delete tmp;
     }
 }
+
+#endif

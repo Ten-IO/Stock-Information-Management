@@ -1,6 +1,14 @@
+#ifndef READER_H
+#define READER_H
+
 #include <stock.h>
 #include <iostream>
 
+/**
+ * @brief extract out of list
+ * @param List* point to LinkedList
+ * @return void
+ */
 void display(List *ls)
 {
     Stock *s = ls->head;
@@ -10,3 +18,5 @@ void display(List *ls)
         s = s->next;
     }
 }
+
+#endif
