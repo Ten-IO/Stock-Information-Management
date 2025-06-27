@@ -49,7 +49,7 @@ int main()
     display(s);
     std::cout << "\n%list: " << s->n << std::endl;
 
-    mergeSortList(&s, 0, s->n - 1); // Check not to be outbound - If we put "n" but in sort put [size+1] work, but arr[0] empty
+    mergeSortList(&s, 8, s->n - 1); // Check not to be outbound - If we put "n" but in sort put [size+1] work, but arr[0] empty
     std::cout << "+ Sort State:\n";
 
     display(s);
