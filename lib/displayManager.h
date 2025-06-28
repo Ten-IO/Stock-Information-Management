@@ -2,6 +2,7 @@
 #define DISPLAYMANAGER_H
 #include <stock.h>
 #include <iostream>
+#include <string>
 #include <windows.h>
 #include <iomanip>
 #include <locale>
@@ -16,7 +17,7 @@ void setCharCode()
 {
     SetConsoleOutputCP(CP_UTF8);
 }
-void boxInterface(int state)
+void inputBox(int state)
 {
     if (state == 1)
     {
@@ -24,6 +25,7 @@ void boxInterface(int state)
         std::cout << "\n";
         std::cout << " ▏                            ▏\n";
         std::cout << "\n";
+        std::cout << "\033[2A";
     }
     else
     {
@@ -31,14 +33,69 @@ void boxInterface(int state)
         std::cout << "| >                           |\n";
         std::cout << "|_____________________________|\n";
     }
+    std::cout << "\033[2A\033[4C";
 }
 
-void moveCursor(int row, int col)
+void postAdjust()
 {
-    std::cout << "\033[" << row << ";" << col << "H";
+    std::cout << "\033[2B";
 }
-void displayList(List *ls)
+void max(int &a, int b)
 {
-    std::cout << "";
+    if (a < b)
+        a = b;
+}
+
+void topCover(string sc, char mc, int count)
+{
+    std::cout << sc;
+    for (int i = 0; i < count; i++)
+        std::cout << mc;
+}
+void botCover(char c, int idL, int nameL, int catgL, int unitL, int priceL)
+{
+    topCover("| ",c, idL);
+    topCover(" | ",c, nameL);
+    topCover(" | ", c, catgL);
+    topCover(" | ", c, unitL);
+    topCover(" | ", c, priceL);
+    std::cout << " |\n";
+}
+void tableList(List *ls)
+{
+    int idL = 3, nameL = 10, catgL = 8, unitL = 5, priceL = 8;
+    Stock *s = ls->head;
+    while (s != nullptr)
+    {
+        max(idL, static_cast<int>(std::to_string(s->item.id).length()));
+        max(nameL, static_cast<int>(s->item.name.length()));
+        max(catgL, static_cast<int>(s->item.category.length()));
+        max(unitL, static_cast<int>(std::to_string(s->item.units).length()));
+        max(priceL, static_cast<int>(std::to_string(s->item.unitPrice).length()));
+
+        s = s->next;
+    }
+    s = ls->head;
+
+    topCover(" ",'_', idL + nameL + catgL + unitL + priceL + 14);
+    std::cout <<std::endl;
+    std::cout << "| " << std::setw(idL) << "ID"
+              << " | " << std::setw(nameL) << "Name"
+              << " | " << std::setw(catgL) << "Category"
+              << " | " << std::setw(unitL) << "Units"
+              << " | " << std::setw(priceL) << "Price" << " |\n";
+        botCover('_', idL, nameL, catgL, unitL, priceL);
+
+    while (s != nullptr)
+    {
+        std::cout << "| " << std::setw(idL) << s->item.id
+                  << " | " << std::setw(nameL) << s->item.name
+                  << " | " << std::setw(catgL) << s->item.category
+                  << " | " << std::setw(unitL) << s->item.units
+                  << " | " << std::setw(priceL) << s->item.unitPrice << " |\n";
+        s = s->next;
+    }
+        botCover('_', idL, nameL, catgL, unitL, priceL);
+
 }
 #endif
