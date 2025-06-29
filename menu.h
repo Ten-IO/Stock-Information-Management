@@ -6,10 +6,9 @@
 #include "delete.h"
 #include "modifier.h"
 #include "reader.h"
-//#include "sorter.h"
 #include "Search.h"
 #include "createFile.h"
-
+#include "filename.h"
 
 using namespace std;
 
@@ -19,6 +18,13 @@ void setColor(int color){
 
 void menu() {
     List* stocklist = initList();
+    List* emptyList = initList(); 
+
+    vector<string> header = {"ID", "Name", "Category", "Unit", "Unit price"};
+    createCSV(CURRENT_FILE, header, stocklist);  
+    createCSV(IMPORT_FILE, header, emptyList);    
+    createCSV(EXPORT_FILE, header, emptyList); 
+
     while(true){
         cout << "=============================="<<endl;
         cout << "       STOCK MANAGEMENT       "<<endl;
@@ -62,20 +68,9 @@ void menu() {
             case 2: {
                 setColor(15);
                 display(stocklist);
-                
-                string ans;
-                cout << "Do you want to save this list to file(y/n)?";
-                cin >> ans;
-                if (ans == "y"){
-                    string filename;
-                    cout << "Enter filename you want to save as: ";
-                    cin >> filename;
-                    vector <string> header = {"ID", "Name", "Category", "Unit", "Unit price"};
-                    createCSV(filename, header, stocklist);
-                }
                 break;
             }
-            case 3: { 
+            case 3: {
                 setColor(15);
                 Item oldData, newData;
                 cout << "Update the products"<<endl;
@@ -96,7 +91,7 @@ void menu() {
             case 4: {
                 setColor(15);
                 int pos;
-                cout << "Delete a products form the stock"<<endl;
+                cout << "Delete a products from the stock"<<endl;
                 cout << "Enter the position of the products you want to delete: ";
                 cin >> pos;
                 deleteAtPos(stocklist, pos);

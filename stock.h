@@ -23,5 +23,3 @@ List *initList() {
 }
 
 #endif
-
-
