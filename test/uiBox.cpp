@@ -1,10 +1,12 @@
 #include <displayManager.h>
 
 int main() {
-    boxInterface(0);
+
+    inputBox(0);
     char input[10];
-    moveCursor(5,5);
     std::cin.getline(input, 10);
+    
+    postAdjust();
     std::cout<< input;
     return 0; 
 }
