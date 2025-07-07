@@ -6,7 +6,7 @@
 
 /**
  * @brief extract out of list
- * @param List* point to LinkedList
+ * @param ls point to LinkedList
  * @return void
  */
 void display(List *ls)

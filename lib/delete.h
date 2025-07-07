@@ -5,7 +5,7 @@
 
 /**
  * @brief Positional delete, pop out when you get that numerical position.
- * @param List* pointer to where item will be added
+ * @param List pointer to where item will be added
  * @param pos numeric point where you want to dispose
  * @return void
  */

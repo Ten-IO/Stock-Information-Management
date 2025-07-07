@@ -7,9 +7,47 @@
 
 /**
  * @brief factory assister : turn array to static for quicker sort
- * @param List* desired sort list
- * @return array:Stock
+ * @param ls desired sort list
+ * @return array : struct Item
  */
+Item *ListToArr(List *, int );
+
+/**
+ * @brief factory assister : take static array turn to LinkedList
+ * @param arr point to struct Item
+ * @param size identified array size
+ * return LinkedList : struct List*
+ */
+List *ArrToList(Item *, int );
+
+/**
+ * @brief divider, comparer, and recontructor for array
+ * @param arr array converted from ListToArray()
+ * @param left hold start pos
+ * @param mid hold medium pos
+ * @param right hold end pos
+ * @return void
+ */
+void divideMerge(Item[] , int , int , int );
+
+/**
+ * @brief use merge sort on static arr
+ * @param arr point to desired sort Item array
+ * @param pos1 starting point of arrangement
+ * @param pos2 end point of arrangement
+ * @return void
+ */
+void mergeSortArr(Item*, int , int );
+
+/**
+ * @brief factory for sort, make changes to LinkedList
+ * @param List* point linkedlist
+ * @param pos1 starting point of arrangement
+ * @param pos2 end point of arrangement
+ * @return void
+ */
+void mergeSortList(List **ls, int pos1, int pos2);
+
 Item *ListToArr(List *ls, int size)
 {
     Item *arr = new Item[size];
@@ -33,14 +71,6 @@ List *ArrToList(Item *arr, int size)
     return ls;
 }
 
-/**
- * @brief divider, comparer, and recontructor for array
- * @param Stock array converted from ListToArray()
- * @param left hold start pos
- * @param mid hold medium pos
- * @param right hold end pos
- * @return void
- */
 void divideMerge(Item arr[], int left, int mid, int right)
 {
     int par1 = mid - left + 1, par2 = right - mid;
@@ -82,11 +112,6 @@ void divideMerge(Item arr[], int left, int mid, int right)
     delete[] rightSide;
 }
 
-/**
- * @brief factory assister : turn array to static for quicker sort
- * @param List* desired sort list
- * @return array:Stock
- */
 void mergeSortArr(Item *arr, int pos1, int pos2)
 {
     if (pos1 < pos2)
@@ -100,13 +125,6 @@ void mergeSortArr(Item *arr, int pos1, int pos2)
     }
 }
 
-/**
- * @brief factory for sort, make changes to LinkedList
- * @param List* point linkedlist
- * @param pos1 starting point of arrangement
- * @param pos2 end point of arrangement
- * @return void
- */
 void mergeSortList(List **ls, int pos1, int pos2)
 {
 

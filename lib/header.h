@@ -2,8 +2,6 @@
 #define HEADER_H
 #include <stock.h>
 
-using namespace std;
-
 List* create();
 void menu();  // Declaration so other files know about it
 void setColor(int color);

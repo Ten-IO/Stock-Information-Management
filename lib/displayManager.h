@@ -7,9 +7,24 @@
 #include <iomanip>
 #include <locale>
 
+/**
+ * @brief change terminal charcode to UTF-8 - standard 4 bytes
+ * @return void
+ */
 void setCharCode();
-void boxInterface();
 
+/**
+ * @brief Create a cool space for input
+ * @return void
+ */
+void inputBox(int);
+
+/**
+ * @brief dynamic table that utilized list structure
+ * @param ls point to address of List input
+ * @return void
+ */
+void tableList(List*);
 void displayList(List *ls);
 void displayPickList(List *ls, std::string headers[]);
 
@@ -46,12 +61,15 @@ void max(int &a, int b)
         a = b;
 }
 
+// Covering table list
 void topCover(string sc, char mc, int count)
 {
     std::cout << sc;
     for (int i = 0; i < count; i++)
         std::cout << mc;
 }
+
+// Completing table list
 void botCover(char c, int idL, int nameL, int catgL, int unitL, int priceL)
 {
     topCover("| ",c, idL);
@@ -61,6 +79,7 @@ void botCover(char c, int idL, int nameL, int catgL, int unitL, int priceL)
     topCover(" | ", c, priceL);
     std::cout << " |\n";
 }
+
 void tableList(List *ls)
 {
     int idL = 3, nameL = 10, catgL = 8, unitL = 5, priceL = 8;

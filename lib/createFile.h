@@ -4,6 +4,14 @@
 #include <fstream>
 #include "stock.h"
 
+// 
+/**
+ * @brief Create comma seperated values with desired headers.
+ * @param filename reference to file itself
+ * @param headers params from structure
+ * @param ls built structured information
+ * @return void
+ */
 void createCSV(const std::string &filename, const std::string headers[], int headerSize, List *ls)
 {
 	ofstream file(filename);
