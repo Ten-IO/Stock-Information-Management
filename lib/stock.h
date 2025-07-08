@@ -3,22 +3,12 @@
 #include <item.h>
 
 /**
- * @brief empty list, important first address
- * @return LinkedList : *List
- */
-List *initList();
-
-/**
  * @struct Item & pointer struct
  * @brief This structure gather Item and address pointer
  * @var item Item data
  * @var next Stock pointer
  */
-struct Stock
-{
-    Item item;
-    Stock *next;
-};
+struct Stock;
 
 /** 
  * @struct Linked List
@@ -27,6 +17,20 @@ struct Stock
  * @var head next pointer
  * @var tail previous pointer
  */
+struct List;
+
+/**
+ * @brief empty list, important first address
+ * @return LinkedList : *List
+ */
+List *initList();
+
+struct Stock
+{
+    Item item;
+    Stock *next;
+};
+
 struct List
 {
     int n;
