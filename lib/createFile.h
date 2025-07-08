@@ -4,7 +4,6 @@
 #include <fstream>
 #include "stock.h"
 
-// 
 /**
  * @brief Create comma seperated values with desired headers.
  * @param filename reference to file itself
@@ -14,11 +13,11 @@
  */
 void createCSV(const std::string &filename, const std::string headers[], int headerSize, List *ls)
 {
-	ofstream file(filename);
+	std::ofstream file(filename);
 
 	if (!file.is_open())
 	{
-		cerr << "Can't open file" << endl;
+		std::cerr << "Can't open file" << std::endl;
 		return;
 	}
 
@@ -46,7 +45,7 @@ void createCSV(const std::string &filename, const std::string headers[], int hea
 	}
 
 	file.close();
-	cout << "File : '" << filename << "' created successfully.\n";
+	std::cout << "File : '" << filename << "' created successfully.\n";
 }
 
 #endif
