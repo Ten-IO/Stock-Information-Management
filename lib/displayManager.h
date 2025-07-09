@@ -31,6 +31,8 @@ void displayPickList(List *ls, std::string headers[]);
 void setCharCode()
 {
     SetConsoleOutputCP(CP_UTF8);
+	std::setlocale(LC_ALL, ".UTF8");
+
 }
 void inputBox(int state)
 {
