@@ -11,6 +11,7 @@
  [](#)
 - [Sections](#sections)
   - [Features](#features)
+  - [Build & Run](#build---run)
   - [Diagram ⚡](#diagram-)
   - [Contributors 🚑](#contributors-)
 
@@ -18,6 +19,12 @@
 - CRUD - create, read, update, delete
 - User Interface - sleek table
 - File creation - CSV format, import, export
+
+## Build - Run
+\+ Window MSYS2, from [Visual Studio code](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64-on-windows "Install C/C++ toolchain"):
+- MUST HAVE [MSYS2](https://www.msys2.org/) installed
+- ensure `make` is installed in MSYS2, `pacman -S --needed make`
+- run `mingw32-make` in project folder `Stock Information System`
 ## Diagram ⚡
 In development use : [drawio](https://app.diagrams.net/#G1M2pyj16JH6AFf1WA127I3CwtmYwmrxLA#%7B%22pageId%22%3A%22eA5-_UtGZlGp_2mV5G3s%22%7D)
 
