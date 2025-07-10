@@ -1,11 +1,12 @@
-CXX = g++ 
-FLAGS =-Wall -Wextra -g3
-libs := libs
+CXX     = g++ 
+OPTS    = -O1
+FLAGS   =-Wall -Wextra -g3
+libs   := libs
 
-OBJDIR=shared
-OBJECTS=$(OBJDIR)/main.o
+OBJDIR  =shared
+OBJECTS =$(OBJDIR)/main.o
 CXXFILES=main.cpp
-BINARY =run.exe # exec file
+BINARY  =run.exe # exec file
 
 all: $(BINARY)
 
