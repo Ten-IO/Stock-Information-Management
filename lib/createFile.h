@@ -13,38 +13,38 @@
  */
 void createCSV(const std::string &filename, const std::string headers[], int headerSize, List *ls)
 {
-	std::ofstream file(filename);
+	std::ofstream OutFile(filename, std::ios::app);
 
-	if (!file.is_open())
+	if (!OutFile.is_open())
 	{
-		std::cerr << "Can't open file" << std::endl;
+		std::cerr << "Can't open file\n";
 		return;
 	}
 
 	// header access
 	for (int i = 0; i < headerSize; i++)
 	{
-		file << headers[i];
+		OutFile << headers[i];
 		if (i < headerSize - 1)
 		{
-			file << ",";
+			OutFile << ",";
 		}
 	}
-	file << "\n";
+	OutFile << "\n";
 
 	// data division
 	Stock *current = ls->head;
 	while (current != nullptr)
 	{
-		file << current->item.id << ",";
-		file << current->item.name << ",";
-		file << current->item.category << ",";
-		file << current->item.units << ",";
-		file << current->item.unitPrice << "\n";
+		OutFile << current->item.id << ",";
+		OutFile << current->item.name << ",";
+		OutFile << current->item.category << ",";
+		OutFile << current->item.units << ",";
+		OutFile << current->item.unitPrice << "\n";
 		current = current->next;
 	}
 
-	file.close();
+	OutFile.close();
 	std::cout << "File : '" << filename << "' created successfully.\n";
 }
 
