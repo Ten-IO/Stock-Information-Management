@@ -13,7 +13,7 @@
  */
 void createCSV(const std::string &filename, const std::string headers[], int headerSize, List *ls)
 {
-	std::ofstream OutFile(filename, std::ios::app);
+	std::ofstream OutFile(filename, std::ios::app|std::ios::out);
 
 	if (!OutFile.is_open())
 	{
@@ -45,7 +45,6 @@ void createCSV(const std::string &filename, const std::string headers[], int hea
 	}
 
 	OutFile.close();
-	std::cout << "File : '" << filename << "' created successfully.\n";
 }
 
 #endif

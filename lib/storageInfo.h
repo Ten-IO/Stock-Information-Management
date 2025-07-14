@@ -42,7 +42,6 @@ void CsvToList(const std::string &fileLocation, const std::string headers[], int
         // parse price
         std::getline(ss, block, ',');
         item.unitPrice = std::stod(block);
-        std::cerr << "Cat" << index << " " << item.category;
         addEnd(ls, item);
         index++;
     }
