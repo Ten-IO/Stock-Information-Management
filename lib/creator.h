@@ -22,4 +22,10 @@ void addEnd(List *ls, Item data)
     ls->n++;
 }
 
+/**
+ * @brief Check duplication via name and minimize information through that.
+ * @param 
+ * @return void
+ */
+void duplicateRegister();
 #endif

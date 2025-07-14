@@ -24,15 +24,14 @@ void inputBox(int);
  * @param ls point to address of List input
  * @return void
  */
-void tableList(List*);
+void tableList(List *);
 void displayList(List *ls);
 void displayPickList(List *ls, std::string headers[]);
 
 void setCharCode()
 {
     SetConsoleOutputCP(CP_UTF8);
-	std::setlocale(LC_ALL, ".UTF8");
-
+    std::setlocale(LC_ALL, ".UTF8");
 }
 void inputBox(int state)
 {
@@ -74,8 +73,8 @@ void topCover(string sc, char mc, int count)
 // Completing table list
 void botCover(char c, int idL, int nameL, int catgL, int unitL, int priceL)
 {
-    topCover("| ",c, idL);
-    topCover(" | ",c, nameL);
+    topCover("| ", c, idL);
+    topCover(" | ", c, nameL);
     topCover(" | ", c, catgL);
     topCover(" | ", c, unitL);
     topCover(" | ", c, priceL);
@@ -98,14 +97,14 @@ void tableList(List *ls)
     }
     s = ls->head;
 
-    topCover(" ",'_', idL + nameL + catgL + unitL + priceL + 14);
-    std::cout <<std::endl;
+    topCover(" ", '_', idL + nameL + catgL + unitL + priceL + 14);
+    std::cout << std::endl;
     std::cout << "| " << std::setw(idL) << "ID"
               << " | " << std::setw(nameL) << "Name"
               << " | " << std::setw(catgL) << "Category"
               << " | " << std::setw(unitL) << "Units"
               << " | " << std::setw(priceL) << "Price" << " |\n";
-        botCover('_', idL, nameL, catgL, unitL, priceL);
+    botCover('_', idL, nameL, catgL, unitL, priceL);
 
     while (s != nullptr)
     {
@@ -116,7 +115,14 @@ void tableList(List *ls)
                   << " | " << std::setw(priceL) << s->item.unitPrice << " |\n";
         s = s->next;
     }
-        botCover('_', idL, nameL, catgL, unitL, priceL);
+    botCover('_', idL, nameL, catgL, unitL, priceL);
+}
 
+int getConsoleWidth()
+{
+    CONSOLE_SCREEN_BUFFER_INFO csBuff;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csBuff))
+        return csBuff.srWindow.Right - csBuff.srWindow.Left + 1;
+    return -1;
 }
 #endif

@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef STOCK_H
+#define STOCK_H
 #include <item.h>
 
 /**
