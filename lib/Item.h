@@ -1,8 +1,6 @@
 #ifndef ITEM_H
 #define ITEM_H
-
 #include <string>
-using std::string;
 
 /**
  * @struct Item
@@ -14,8 +12,9 @@ struct Item
     // indentify `id` value and `units`amount
     int id, units;
     // `name` of product and `category` it is in
-    string name, category;
+    std::string name, category;
     // `unitPrice` cash values
     double unitPrice;
 };
+
 #endif
