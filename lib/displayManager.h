@@ -1,6 +1,6 @@
 #ifndef DISPLAYMANAGER_H
 #define DISPLAYMANAGER_H
-#include <stock.h>
+#include "StockList.h"
 #include <iostream>
 #include <string>
 #include <windows.h>
