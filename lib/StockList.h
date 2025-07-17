@@ -30,19 +30,29 @@ public:
 
     List()
     {
-        head = nullptr;
-        tail = nullptr;
-        n = 0;
+        initList();
+    }
+
+    ~List()
+    {
+        Stock *current = head;
+        while (current != nullptr)
+        {
+            Stock *collector = current;
+            current = current->next;
+            delete collector;
+        }
     }
 
     /**
      * @brief empty list, important first address
-     * @return LinkedList : *List
+     * @return void
      */
-    List *initList()
+    void initList()
     {
-        List *ls = new List;
-        return ls;
+        head = nullptr;
+        tail = nullptr;
+        n = 0;
     }
     /**
      * @brief End-point insertion : similar to vector push_back.
@@ -50,18 +60,18 @@ public:
      * @param data info add to list via Item struct
      * @return void
      */
-    void addItem(List *ls, Item data)
+    void addItem(Item data)
     {
         Stock *s = new Stock;
         s->item = data;
         s->next = nullptr;
 
-        if (ls->head == 0)
-            ls->head = s;
+        if (head == 0)
+            head = s;
         else
-            ls->tail->next = s;
-        ls->tail = s;
-        ls->n++;
+            tail->next = s;
+        tail = s;
+        n++;
     }
     /**
      * @brief look for old info via `id` then update
@@ -71,9 +81,9 @@ public:
      * @retval `n` amount of changed
      * @retval `-1` not changed
      */
-    int modifyViaID(List *ls, Item oldData, Item newData)
+    int modifyViaID(Item oldData, Item newData)
     {
-        Stock *s = ls->head;
+        Stock *s = head;
         int isFound = 0;
         while (s != nullptr)
         {
@@ -96,22 +106,22 @@ public:
      * @retval `-2` invalid position
      * @retval `0` success
      */
-    int deleteAtPos(List *ls, int pos)
+    int deleteAtPos(int pos)
     {
-        if (ls->n == 0 || pos < 0 || pos >= ls->n)
+        if (n == 0 || pos < 0 || pos >= n)
             return -1;
         if (pos == 0)
         {
-            Stock *tmp = ls->head;
-            ls->head = tmp->next;
+            Stock *tmp = head;
+            head = tmp->next;
             delete tmp;
-            if (ls->n == 1)
-                ls->tail = nullptr;
+            if (n == 1)
+                tail = nullptr;
             return 0;
         }
         else
         {
-            Stock *current = ls->head;
+            Stock *current = head;
             // get to position
             for (int i = 0; i < pos - 1; i++)
                 current = current->next;
@@ -119,8 +129,8 @@ public:
             Stock *tmp = current->next;
             current->next = tmp->next;
             // if pos deleted at end, replace
-            if (tmp == ls->tail)
-                ls->tail = current;
+            if (tmp == tail)
+                tail = current;
 
             delete tmp;
             return 0;
@@ -131,9 +141,9 @@ public:
      * @param ls point to LinkedList
      * @return void
      */
-    void showID(List *ls, int id)
+    void showID(int id)
     {
-        Stock *s = ls->head;
+        Stock *s = head;
         while (s != nullptr)
         {
             if (s->item.id == id)
@@ -146,6 +156,14 @@ public:
             }
             s = s->next;
         }
+    }
+    void showItem(Item item)
+    {
+        std::cout << "++ ID: " << item.id
+                  << " ++ \nName: " << item.name
+                  << "\nCategory: " << item.category
+                  << "\nUnits: " << item.units
+                  << "\nPrice: " << item.unitPrice << "\n---------------\n\n";
     }
     int sortItemID();
 };
