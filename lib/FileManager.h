@@ -111,7 +111,7 @@ class FileManager
             // parse price
             std::getline(ss, block, ',');
             item.unitPrice = std::stod(block);
-            ls->addItem(ls, item);
+            ls->addItem(item);
             index++;
         }
 
