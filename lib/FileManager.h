@@ -8,18 +8,33 @@
 
 class FileManager
 {
-    public:
-    std::string fileName;
-    FileManager(std::string fileName)
+public:
+     std::string fileName;
+    FileManager(const std::string &initName)
     {
+        fileName=Check(initName);
         std::ofstream OutFile(fileName, std::ios::app | std::ios::out);
 
         if (!OutFile.is_open())
 
-            throw std::runtime_error("Cannot open the file");
+            throw std::runtime_error("\nCannot open the file\n");
 
-        fileName;
         OutFile.close();
+    }
+
+    std::string Check(const std::string &fileName)
+    {
+        std::string tmp;
+        for (char c : fileName)
+        {
+            if (c == '.')
+                return tmp + ".csv";
+            else if (!((c > 47 && c < 58) || (tolower(c) > 96 && tolower(c) < 123)) && c != '_' && c != '-')
+                throw std::runtime_error("\nUnidentified sign located in file name. Please remove!\n");
+            else
+                tmp += c;
+        }
+        return fileName + ".csv";
     }
     /**
      * @brief List -> File, export data from program

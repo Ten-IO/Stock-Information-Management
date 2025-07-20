@@ -28,6 +28,17 @@ void tableList(List *);
 void displayList(List *ls);
 void displayPickList(List *ls, std::string headers[]);
 
+void setFRGB(int r,int g, int b){
+    printf("\033[38;2;%d;%d;%dm",r,g,b);
+}
+void setBRGB(int r,int g, int b){
+    printf("\033[48;2;%d;%d;%dm",r,g,b);
+}
+void resetTerm(){
+    std::cout << "\033[0m";
+    // std::cout << "\033[39m";
+    // std::cout << "\033[49m";
+}
 void setCharCode()
 {
     SetConsoleOutputCP(CP_UTF8);
@@ -63,7 +74,7 @@ void max(int &a, int b)
 }
 
 // Covering table list
-void topCover(string sc, char mc, int count)
+void topCover(std::string sc, char mc, int count)
 {
     std::cout << sc;
     for (int i = 0; i < count; i++)
