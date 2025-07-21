@@ -92,9 +92,9 @@ public:
                 s->item = newData;
                 isFound += 1;
             }
+            s = s->next;
         }
-        s = s->next;
-        if (isFound != 0)
+        if (isFound == 0)
             return -1;
         else
             return isFound;
@@ -108,6 +108,7 @@ public:
      */
     int deleteAtPos(int pos)
     {
+        pos = pos - 1; // adjust real position
         if (n == 0 || pos < 0 || pos >= n)
             return -1;
         if (pos == 0)
