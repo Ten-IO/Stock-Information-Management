@@ -6,7 +6,7 @@
 #include <windows.h>
 #include <iomanip>
 #include <locale>
-
+#include <limits>
 /**
  * @brief change terminal charcode to UTF-8 - standard 4 bytes
  * @return void
@@ -28,13 +28,24 @@ void tableList(List *);
 void displayList(List *ls);
 void displayPickList(List *ls, std::string headers[]);
 
-void setFRGB(int r,int g, int b){
-    printf("\033[38;2;%d;%d;%dm",r,g,b);
+void checkInput()
+{
+    if (std::cin.fail())
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 }
-void setBRGB(int r,int g, int b){
-    printf("\033[48;2;%d;%d;%dm",r,g,b);
+void setFRGB(int r, int g, int b)
+{
+    printf("\033[38;2;%d;%d;%dm", r, g, b);
 }
-void resetTerm(){
+void setBRGB(int r, int g, int b)
+{
+    printf("\033[48;2;%d;%d;%dm", r, g, b);
+}
+void resetTerm()
+{
     std::cout << "\033[0m";
     // std::cout << "\033[39m";
     // std::cout << "\033[49m";
@@ -44,15 +55,39 @@ void setCharCode()
     SetConsoleOutputCP(CP_UTF8);
     std::setlocale(LC_ALL, ".UTF8");
 }
+void topBox(int state)
+{
+    if (state == 1)
+    {
+        std::cout << "\n";
+        std::cout << " ▏                            ▏\n";
+    }
+    else
+    {
+        std::cout << "_______________________________\n";
+        std::cout << "| >                           |\n";
+    }
+
+}
+void botBox(int state)
+{
+    if (state == 1)
+    {
+        std::cout << "\n";
+    }
+    else
+    {
+        std::cout << "|_____________________________|\n";
+    }
+}
+
 void inputBox(int state)
 {
     if (state == 1)
     {
-        // setCharCode();
         std::cout << "\n";
         std::cout << " ▏                            ▏\n";
         std::cout << "\n";
-        std::cout << "\033[2A";
     }
     else
     {
@@ -60,7 +95,7 @@ void inputBox(int state)
         std::cout << "| >                           |\n";
         std::cout << "|_____________________________|\n";
     }
-    std::cout << "\033[2A\033[4C";
+    std::cout << "\033[2A\033[6C";
 }
 
 void postAdjust()
