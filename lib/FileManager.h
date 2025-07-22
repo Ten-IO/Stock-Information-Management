@@ -1,5 +1,5 @@
-#ifndef STORAGEINFO_H
-#define STORAGEINFO_H
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -9,10 +9,10 @@
 class FileManager
 {
 public:
-     std::string fileName;
+    std::string fileName;
     FileManager(const std::string &initName)
     {
-        fileName=Check(initName);
+        fileName = checkFile(initName);
         std::ofstream OutFile(fileName, std::ios::app | std::ios::out);
 
         if (!OutFile.is_open())
@@ -22,7 +22,7 @@ public:
         OutFile.close();
     }
 
-    std::string Check(const std::string &fileName)
+    std::string checkFile(const std::string &fileName)
     {
         std::string tmp;
         for (char c : fileName)
@@ -35,6 +35,19 @@ public:
                 tmp += c;
         }
         return fileName + ".csv";
+    }
+    bool checkHeader(const std::string &line, const std::string header[], int size)
+    {
+        std::stringstream ss(line);
+        std::string field;
+        for (int i = 0; i < size; i++)
+        {
+            if (!std::getline(ss, field, ','))
+                return 0;
+            if (field != header[i])
+                return 0;
+            return 1;
+        }
     }
     /**
      * @brief List -> File, export data from program
@@ -49,6 +62,7 @@ public:
     int ListToCsv(const std::string &fileName, const std::string headers[], int headerSize, List *ls)
     {
         std::ofstream OutFile(fileName, std::ios::app | std::ios::out);
+        std::ifstream readHead(fileName, std::ios::in);
 
         if (!OutFile.is_open())
         {
@@ -57,15 +71,20 @@ public:
         }
 
         // header access
-        for (int i = 0; i < headerSize; i++)
+        std::string line;
+        std::getline(readHead, line);
+        if (!checkHeader(line, headers, headerSize))
         {
-            OutFile << headers[i];
-            if (i < headerSize - 1)
+            for (int i = 0; i < headerSize; i++)
             {
-                OutFile << ",";
+                OutFile << headers[i];
+                if (i < headerSize - 1)
+                {
+                    OutFile << ",";
+                }
             }
+            OutFile << "\n";
         }
-        OutFile << "\n";
 
         // data division
         Stock *current = ls->head;

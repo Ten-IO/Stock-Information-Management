@@ -42,14 +42,37 @@ int levenshtein_distance(std::string usrTxt, std::string dbTxt, bool verbose)
     return d[m][n];
 }
 
-std::string levenshtein_search(std::string input, List *ls)
+List levenshtein_search(std::string input, List *ls)
 {
     Stock *s = new Stock;
+    List *tmp = new List;
     s->next = ls->head;
+    int score, prev[3];
     for (int i = 0; i < ls->n; i++)
     {
-        levenshtein_distance(input, s->item.name, 0);
-        s->next;
+        score = levenshtein_distance(input, s->item.name, 0);
+        for (int i : prev)
+        {
+            if (prev[i] > score)
+            {
+                prev[i] = score;
+                if (tmp->head == 0)
+                {
+                    tmp->head = s;
+                    tmp->n = ls->n;
+                }
+                else
+                {
+                    tmp->tail = s;
+                    tmp->n = ls->n;
+                }
+            }
+        }
+
+        s=s->next;
     }
+    delete s;
+    return tmp;
 }
+
 #endif
