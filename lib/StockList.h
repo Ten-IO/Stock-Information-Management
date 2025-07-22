@@ -81,23 +81,19 @@ public:
      * @retval `n` amount of changed
      * @retval `-1` not changed
      */
-    int modifyViaID(Item oldData, Item newData)
+    bool modifyViaID(const int &id, Item newData)
     {
         Stock *s = head;
-        int isFound = 0;
         while (s != nullptr)
         {
-            if (s->item.id == oldData.id)
+            if (s->item.id == id)
             {
                 s->item = newData;
-                isFound += 1;
+                return 1;
             }
             s = s->next;
         }
-        if (isFound == 0)
-            return -1;
-        else
-            return isFound;
+        return 0;
     }
     /**
      * @brief Positional delete, pop out when you get that numerical position.
@@ -150,13 +146,19 @@ public:
             if (s->item.id == id)
             {
                 std::cout << "++ ID: " << s->item.id
-                          << " ++ \nName: " << s->item.name
+                          << " ++\nName: " << s->item.name
                           << "\nCategory: " << s->item.category
                           << "\nUnits: " << s->item.units
                           << "\nPrice: " << s->item.unitPrice << "\n---------------\n\n";
             }
             s = s->next;
         }
+    }
+    enum class PriceType{
+        LESS_THAN, MORE_THAN
+    };
+    void showRangePrice(int price, PriceType typeCompare){
+
     }
     void showItem(Item item)
     {
@@ -166,7 +168,7 @@ public:
                   << "\nUnits: " << item.units
                   << "\nPrice: " << item.unitPrice << "\n---------------\n\n";
     }
-    int sortItemID();
+    
 };
 
 #endif
