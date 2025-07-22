@@ -42,7 +42,7 @@ int levenshtein_distance(std::string usrTxt, std::string dbTxt, bool verbose)
     return d[m][n];
 }
 
-List levenshtein_search(std::string input, List *ls)
+List *levenshtein_search(std::string input, List *ls)
 {
     Stock *s = new Stock;
     List *tmp = new List;
