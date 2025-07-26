@@ -28,14 +28,70 @@ void tableList(List *);
 void displayList(List *ls);
 void displayPickList(List *ls, std::string headers[]);
 
-void checkInput()
+int readInt(const std::string &prompt)
 {
-    if (std::cin.fail())
+    int tmp;
+    while (1)
     {
-        std::cin.clear();
+        std::cout << prompt;
+        std::cin >> tmp;
+        if (!std::cin.fail())
+        {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return tmp;
+        }
+        else
+            std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "\033[A";
+        std::cout<<"\033[2K";
     }
 }
+
+float readFloat(const std::string &prompt)
+{
+    float tmp;
+    while (1)
+    {
+        std::cout << prompt;
+        std::cin >> tmp;
+        if (!std::cin.fail())
+        {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return tmp;
+        }
+        else
+            std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "\033[A";
+        std::cout<<"\033[2K";
+    }
+}
+
+std::string readStr(std::string prompt)
+{
+    std::string tmp;
+    bool hasPunc=false;
+    while (1)
+    {
+        hasPunc=false;
+        std::cout << prompt;
+        std::getline(std::cin, tmp);
+        for (char c : tmp)
+        {
+            if (ispunct(c))
+            {
+                std::cout << "\033[A";
+                std::cout << "\033[2K";
+                hasPunc=true;
+                break;
+            }
+        }
+        if (!hasPunc)
+            return tmp;
+    }
+}
+
 void setFRGB(int r, int g, int b)
 {
     printf("\033[38;2;%d;%d;%dm", r, g, b);
@@ -67,7 +123,6 @@ void topBox(int state)
         std::cout << "_______________________________\n";
         std::cout << "| >                           |\n";
     }
-
 }
 void botBox(int state)
 {
