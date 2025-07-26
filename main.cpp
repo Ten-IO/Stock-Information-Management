@@ -9,24 +9,19 @@ void acceptingInput(Item &item)
 {
     topBox(1);
     std::cout << "\033[A\033[6C";
-    std::cout << "ID: ";
-    std::cin >> item.id;
+    item.id = readInt("ID: ");
     topBox(1);
     std::cout << "\033[A\033[6C";
-    std::cout << "Name: ";
-    std::cin >> item.name;
+    item.name = readStr("Name: ");
     topBox(1);
     std::cout << "\033[A\033[6C";
-    std::cout << "Category: ";
-    std::cin >> item.category;
+    item.category = readStr("Category: ");
     topBox(1);
     std::cout << "\033[A\033[6C";
-    std::cout << "Unit: ";
-    std::cin >> item.units;
+    item.units = readInt("Unit(s): ");
     topBox(1);
     std::cout << "\033[A\033[6C";
-    std::cout << "Unit price: ";
-    std::cin >> item.unitPrice;
+    item.unitPrice = readFloat("Unit price: ");
     botBox(1);
 }
 int main()
@@ -50,10 +45,8 @@ int main()
         std::cout << "| 0. Exit the program         |\n";
         std::cout << "===============================\n";
         inputBox(1);
-        std::cin >> choice;
+        choice = readInt(" ");
         std::cout << '\n';
-        checkInput();
-
         switch (choice)
         {
         case 1:
@@ -71,11 +64,10 @@ int main()
             Item oldData, newData;
             std::cout << "Update the products - ProductID \n";
             inputBox(1);
-            std::cout << "Enter ID to modify: ";
-            std::cin >> oldData.id;
+            oldData.id = readInt("Enter ID to modify");
 
             acceptingInput(newData);
-            int result = stock->modifyViaID(oldData, newData);
+            int result = stock->modifyViaID(oldData.id, newData);
             if (result < -1)
                 std::cout << "Not found\n";
             else
@@ -86,8 +78,7 @@ int main()
         {
             int pos;
             std::cout << "Delete a products from the stock\n";
-            std::cout << "Enter the position of the products you want to delete: ";
-            std::cin >> pos;
+            pos = readInt("Enter product's position: ");
             stock->deleteAtPos(pos);
             break;
         }
@@ -95,8 +86,7 @@ int main()
         {
             int id;
             std::cout << "Search for the product by its ID\n";
-            std::cout << "Enter the product ID: ";
-            std::cin >> id;
+            id = readInt("Enter product ID: ");
             stock->showID(id);
             break;
         }

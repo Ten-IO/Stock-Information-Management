@@ -13,13 +13,24 @@ public:
     FileManager(const std::string &initName)
     {
         fileName = checkFile(initName);
-        std::ofstream OutFile(fileName, std::ios::app | std::ios::out);
+        std::ifstream chFile(fileName);
 
-        if (!OutFile.is_open())
+        if (!chFile.is_open())
+            throw std::runtime_error("\n[!] Cannot open the file:" + fileName + "\n");
+        chFile.close();
+    }
 
-            throw std::runtime_error("\nCannot open the file\n");
-
-        OutFile.close();
+    int initFile(const std::string &fileName)
+    {
+        std::ofstream newFile(fileName);
+        std::cout << "[+] Create new file\n";
+        if (!newFile.is_open())
+        {
+            throw std::runtime_error(std::string("\n[!] Cannot open the file:") + fileName + "\n");
+            return 0;
+        }
+        newFile.close();
+        return 1;
     }
 
     std::string checkFile(const std::string &fileName)
@@ -30,7 +41,7 @@ public:
             if (c == '.')
                 return tmp + ".csv";
             else if (!((c > 47 && c < 58) || (tolower(c) > 96 && tolower(c) < 123)) && c != '_' && c != '-')
-                throw std::runtime_error("\nUnidentified sign located in file name. Please remove!\n");
+                throw std::runtime_error(std::string("\nUnidentified sign located in "+fileName+". Please remove!\n"));
             else
                 tmp += c;
         }
@@ -59,15 +70,15 @@ public:
      * - `-1` on file not able to open
      * - `0` on success
      */
-    int ListToCsv(const std::string &fileName, const std::string headers[], int headerSize, List *ls)
+    bool ListToCsv(const std::string &fileName, const std::string headers[], int headerSize, List *ls)
     {
         std::ofstream OutFile(fileName, std::ios::app | std::ios::out);
         std::ifstream readHead(fileName, std::ios::in);
 
-        if (!OutFile.is_open())
+        if (!readHead.is_open())
         {
-            std::cerr << "Can't open file\n";
-            return -1;
+            std::cerr << "[!] Can't open file\n";
+            return 0;
         }
 
         // header access
@@ -99,7 +110,7 @@ public:
         }
 
         OutFile.close();
-        return 0;
+        return 1;
     }
 
     /**
@@ -117,7 +128,7 @@ public:
 
         if (!InFile.is_open())
         {
-            std::cerr << "Cannot open file\n";
+            std::cerr << "[!] Cannot open to read file\n";
             return -1;
         }
 
