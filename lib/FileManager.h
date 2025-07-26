@@ -15,18 +15,19 @@ public:
         fileName = checkFile(initName);
         std::ifstream chFile(fileName);
 
-        if (!chFile.is_open())
-            throw std::runtime_error("\n[!] Cannot open the file:" + fileName + "\n");
+        if (!chFile.is_open()){
+            std::cerr << "[!] File does not exist ";
+        initFile(fileName);}
         chFile.close();
     }
 
-    int initFile(const std::string &fileName)
+    bool initFile(const std::string &initName)
     {
-        std::ofstream newFile(fileName);
+        std::ofstream newFile(initName);
         std::cout << "[+] Create new file\n";
         if (!newFile.is_open())
         {
-            throw std::runtime_error(std::string("\n[!] Cannot open the file:") + fileName + "\n");
+            throw std::runtime_error(std::string("\n[!] Cannot open the file:") + initName + "\n");
             return 0;
         }
         newFile.close();
@@ -41,7 +42,7 @@ public:
             if (c == '.')
                 return tmp + ".csv";
             else if (!((c > 47 && c < 58) || (tolower(c) > 96 && tolower(c) < 123)) && c != '_' && c != '-')
-                throw std::runtime_error(std::string("\nUnidentified sign located in "+fileName+". Please remove!\n"));
+                throw std::runtime_error(std::string("\nUnidentified sign located in " + fileName + ". Please remove!\n"));
             else
                 tmp += c;
         }
@@ -53,12 +54,10 @@ public:
         std::string field;
         for (int i = 0; i < size; i++)
         {
-            if (!std::getline(ss, field, ','))
+            if (!std::getline(ss, field, ',') || field != header[i])
                 return 0;
-            if (field != header[i])
-                return 0;
-            return 1;
         }
+        return 1;
     }
     /**
      * @brief List -> File, export data from program
@@ -67,13 +66,13 @@ public:
      * @param headerSize count of headers
      * @param ls store address of List
      * @return int Code indicating result:
-     * - `-1` on file not able to open
-     * - `0` on success
+     * - `0` on file not able to open
+     * - `1` on success
      */
-    bool ListToCsv(const std::string &fileName, const std::string headers[], int headerSize, List *ls)
+    bool ListToCsv(const std::string headers[], int headerSize, List *ls)
     {
-        std::ofstream OutFile(fileName, std::ios::app | std::ios::out);
-        std::ifstream readHead(fileName, std::ios::in);
+        std::ofstream OutFile(fileName);
+        std::ifstream readHead(fileName);
 
         if (!readHead.is_open())
         {
@@ -90,13 +89,11 @@ public:
             {
                 OutFile << headers[i];
                 if (i < headerSize - 1)
-                {
                     OutFile << ",";
-                }
             }
             OutFile << "\n";
         }
-
+        readHead.close();
         // data division
         Stock *current = ls->head;
         while (current != nullptr)
@@ -119,17 +116,17 @@ public:
      * @param headers attributes of information
      * @param headerSize count of headers
      * @param ls store address of List
-     * @retval `0` on success
-     * @retval `-1` on file not found
+     * @retval `1` on success
+     * @retval `0` on file not found
      */
-    int CsvToList(const std::string &fileName, const std::string headers[], int headerSize, List *ls)
+    bool CsvToList(const std::string headers[], int headerSize, List *ls)
     {
         std::ifstream InFile(fileName, std::ios::in);
 
         if (!InFile.is_open())
         {
             std::cerr << "[!] Cannot open to read file\n";
-            return -1;
+            return 0;
         }
 
         std::string line, block;
@@ -161,7 +158,7 @@ public:
         }
 
         InFile.close();
-        return 0;
+        return 1;
     }
 };
 

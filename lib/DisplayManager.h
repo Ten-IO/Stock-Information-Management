@@ -114,15 +114,17 @@ void setCharCode()
 void topBox(int state)
 {
     if (state == 1)
-    {
         std::cout << "\n";
-        std::cout << " ▏                            ▏\n";
-    }
     else
-    {
         std::cout << "_______________________________\n";
+}
+
+void midBox(int state)
+{
+    if (state == 1)
+        std::cout << "▏                             ▏\n";
+    else
         std::cout << "| >                           |\n";
-    }
 }
 void botBox(int state)
 {
@@ -213,7 +215,7 @@ void tableList(List *ls)
                   << " | " << std::setw(nameL) << s->item.name
                   << " | " << std::setw(catgL) << s->item.category
                   << " | " << std::setw(unitL) << s->item.units
-                  << " | " << std::setw(priceL) << s->item.unitPrice << " |\n";
+                  << " | $" << std::setw(priceL-1) << s->item.unitPrice << " |\n";
         s = s->next;
     }
     botCover('_', idL, nameL, catgL, unitL, priceL);
