@@ -1,5 +1,4 @@
-#ifndef DISPLAYMANAGER_H
-#define DISPLAYMANAGER_H
+#pragma once
 #include "StockList.h"
 #include <iostream>
 #include <string>
@@ -13,20 +12,95 @@
  */
 void setCharCode();
 
+// save cursor position
+void preCursor();
+// restore cursor position
+void postCursor();
 /**
  * @brief Create a cool space for input
+ * @param state `1` if unicode working, `2` if char display chaos
  * @return void
  */
 void inputBox(int);
 
+// check highest value, go with address of a
+void max(int &a, int b);
 /**
- * @brief dynamic table that utilized list structure
- * @param ls point to address of List input
+ * @brief dynamic table that utilized list structure & data length
+ * @param ls address of heap List
  * @return void
  */
 void tableList(List *);
-void displayList(List *ls);
 void displayPickList(List *ls, std::string headers[]);
+/**
+ * @brief cin for integer, evaluate type int
+ * @param prompt prompt before input
+ * @return integer
+ */
+int readInt(const std::string&);
+
+/**
+ * @brief cin for float, evaluate type float
+ * @param prompt prompt before input
+ * @return float
+ */
+float readFloat(const std::string&);
+
+/**
+ * @brief cin for string, evaluate for alphabets and numbers
+ * @param prompt prompt
+ * @return string
+ */
+int readStr(const std::string&);
+
+/**
+ * @brief start here text/foreground color change
+ * @param r red @param g green @param b blue
+ * @return void
+ */
+void setFRGB(int r, int g, int b);
+
+/**
+ * @brief start here background color change
+ * @param r red @param g green @param b blue
+ * @return void
+ */
+void setBRGB(int r, int g, int b);
+
+// quick reset text&background color & other attributes
+void resetTerm();
+
+/**
+ * @brief get terminal with by check HANDLER from window.h
+ * @retval width
+ */
+int getConsoleWidth();
+
+// Closing table list
+void botCover(char c, int idL, int nameL, int catgL, int unitL, int priceL);
+// Covering table list
+void topCover(std::string sc, char mc, int count);
+
+// cover input ui
+void topBox(int state);
+// enclose input ui
+void midBox(int state);
+// close input ui
+void botBox(int state);
+
+void setCharCode()
+{
+    SetConsoleOutputCP(CP_UTF8);
+    std::setlocale(LC_ALL, ".UTF8");
+}
+
+void preCursor(){
+std::cout << "\033[s";
+}
+void postCursor()
+{
+    std::cout << "\033[u";
+}
 
 int readInt(const std::string &prompt)
 {
@@ -47,7 +121,6 @@ int readInt(const std::string &prompt)
         std::cout<<"\033[2K";
     }
 }
-
 float readFloat(const std::string &prompt)
 {
     float tmp;
@@ -67,7 +140,6 @@ float readFloat(const std::string &prompt)
         std::cout<<"\033[2K";
     }
 }
-
 std::string readStr(std::string prompt)
 {
     std::string tmp;
@@ -106,11 +178,7 @@ void resetTerm()
     // std::cout << "\033[39m";
     // std::cout << "\033[49m";
 }
-void setCharCode()
-{
-    SetConsoleOutputCP(CP_UTF8);
-    std::setlocale(LC_ALL, ".UTF8");
-}
+
 void topBox(int state)
 {
     if (state == 1)
@@ -118,7 +186,6 @@ void topBox(int state)
     else
         std::cout << "_______________________________\n";
 }
-
 void midBox(int state)
 {
     if (state == 1)
@@ -142,38 +209,30 @@ void inputBox(int state)
 {
     if (state == 1)
     {
-        std::cout << "\n";
-        std::cout << " ▏                            ▏\n";
-        std::cout << "\n";
+        std::cout << "  ╭╮\n";
+        std::cout << "  |                                                        |\n";
+        std::cout << "  ╰╯\n";
     }
     else
     {
-        std::cout << "_______________________________\n";
-        std::cout << "| >                           |\n";
-        std::cout << "|_____________________________|\n";
+        std::cout << " ________________________________________________________\n";
+        std::cout << "| >                                                      |\n";
+        std::cout << "|________________________________________________________|\n";
     }
     std::cout << "\033[2A\033[6C";
 }
 
-void postAdjust()
-{
-    std::cout << "\033[2B";
-}
 void max(int &a, int b)
 {
     if (a < b)
         a = b;
 }
-
-// Covering table list
 void topCover(std::string sc, char mc, int count)
 {
     std::cout << sc;
     for (int i = 0; i < count; i++)
         std::cout << mc;
 }
-
-// Completing table list
 void botCover(char c, int idL, int nameL, int catgL, int unitL, int priceL)
 {
     topCover("| ", c, idL);
@@ -219,6 +278,7 @@ void tableList(List *ls)
         s = s->next;
     }
     botCover('_', idL, nameL, catgL, unitL, priceL);
+    delete s;
 }
 
 int getConsoleWidth()
@@ -228,4 +288,3 @@ int getConsoleWidth()
         return csBuff.srWindow.Right - csBuff.srWindow.Left + 1;
     return -1;
 }
-#endif
