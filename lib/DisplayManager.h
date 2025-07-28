@@ -21,7 +21,7 @@ void postCursor();
  * @param state `1` if unicode working, `2` if char display chaos
  * @return void
  */
-void inputBox(int);
+void inputBox(const int &);
 
 // check highest value, go with address of a
 void max(int &a, int b);
@@ -31,27 +31,29 @@ void max(int &a, int b);
  * @return void
  */
 void tableList(List *);
+// display input item
+void showItem(Item item);
 void displayPickList(List *ls, std::string headers[]);
 /**
  * @brief cin for integer, evaluate type int
  * @param prompt prompt before input
  * @return integer
  */
-int readInt(const std::string&);
+int readInt(const std::string &);
 
 /**
  * @brief cin for float, evaluate type float
  * @param prompt prompt before input
  * @return float
  */
-float readFloat(const std::string&);
+float readFloat(const std::string &);
 
 /**
  * @brief cin for string, evaluate for alphabets and numbers
  * @param prompt prompt
  * @return string
  */
-int readStr(const std::string&);
+std::string readStr(const std::string &);
 
 /**
  * @brief start here text/foreground color change
@@ -94,8 +96,9 @@ void setCharCode()
     std::setlocale(LC_ALL, ".UTF8");
 }
 
-void preCursor(){
-std::cout << "\033[s";
+void preCursor()
+{
+    std::cout << "\033[s";
 }
 void postCursor()
 {
@@ -105,6 +108,7 @@ void postCursor()
 int readInt(const std::string &prompt)
 {
     int tmp;
+    std::cout << "\033[2C";
     while (1)
     {
         std::cout << prompt;
@@ -118,12 +122,17 @@ int readInt(const std::string &prompt)
             std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "\033[A";
-        std::cout<<"\033[2K";
+        std::cout << "\033[2K";
+        preCursor();
+        midBox(1);
+        postCursor();
+        std::cout << "\033[D\033[8C";
     }
 }
 float readFloat(const std::string &prompt)
 {
     float tmp;
+    std::cout << "\033[2C";
     while (1)
     {
         std::cout << prompt;
@@ -137,30 +146,41 @@ float readFloat(const std::string &prompt)
             std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "\033[A";
-        std::cout<<"\033[2K";
+        std::cout << "\033[2K";
+        preCursor();
+        midBox(1);
+        postCursor();
+        std::cout << "\033[D\033[8C";
     }
 }
-std::string readStr(std::string prompt)
+std::string readStr(const std::string &prompt)
 {
     std::string tmp;
-    bool hasPunc=false;
+    bool hasPunc = false;
+    std::cout << "\033[2C";
     while (1)
     {
-        hasPunc=false;
+        hasPunc = false;
         std::cout << prompt;
         std::getline(std::cin, tmp);
         for (char c : tmp)
         {
             if (ispunct(c))
             {
-                std::cout << "\033[A";
-                std::cout << "\033[2K";
-                hasPunc=true;
+                hasPunc = true;
                 break;
             }
         }
+
         if (!hasPunc)
             return tmp;
+
+        std::cout << "\033[A";
+        std::cout << "\033[2K";
+        preCursor();
+        midBox(1);
+        postCursor();
+        std::cout << "\033[D\033[8C";
     }
 }
 
@@ -182,42 +202,38 @@ void resetTerm()
 void topBox(int state)
 {
     if (state == 1)
-        std::cout << "\n";
+        std::cout << "  ╭ ╮\n";
     else
-        std::cout << "_______________________________\n";
+        std::cout << "   ________________________________________________________\n";
 }
 void midBox(int state)
 {
     if (state == 1)
-        std::cout << "▏                             ▏\n";
+        std::cout << "  |                                                        |\n";
     else
-        std::cout << "| >                           |\n";
+        std::cout << "  | >                                                      |\n";
 }
 void botBox(int state)
 {
     if (state == 1)
-    {
-        std::cout << "\n";
-    }
+        std::cout << "  ╰ ╯\n";
     else
-    {
-        std::cout << "|_____________________________|\n";
-    }
+        std::cout << "  |________________________________________________________|\n";
 }
 
-void inputBox(int state)
+void inputBox(const int &state)
 {
     if (state == 1)
     {
-        std::cout << "  ╭╮\n";
+        std::cout << "  ╭ ╮\n";
         std::cout << "  |                                                        |\n";
-        std::cout << "  ╰╯\n";
+        std::cout << "  ╰ ╯\n";
     }
     else
     {
-        std::cout << " ________________________________________________________\n";
-        std::cout << "| >                                                      |\n";
-        std::cout << "|________________________________________________________|\n";
+        std::cout << "   ________________________________________________________\n";
+        std::cout << "  | >                                                      |\n";
+        std::cout << "  |________________________________________________________|\n";
     }
     std::cout << "\033[2A\033[6C";
 }
@@ -274,7 +290,7 @@ void tableList(List *ls)
                   << " | " << std::setw(nameL) << s->item.name
                   << " | " << std::setw(catgL) << s->item.category
                   << " | " << std::setw(unitL) << s->item.units
-                  << " | $" << std::setw(priceL-1) << s->item.unitPrice << " |\n";
+                  << " | $" << std::setw(priceL - 1) << s->item.unitPrice << " |\n";
         s = s->next;
     }
     botCover('_', idL, nameL, catgL, unitL, priceL);
@@ -287,4 +303,13 @@ int getConsoleWidth()
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csBuff))
         return csBuff.srWindow.Right - csBuff.srWindow.Left + 1;
     return -1;
+}
+
+void showItem(Item item)
+{
+    std::cout << "++ ID: " << item.id
+              << " ++ \nName: " << item.name
+              << "\nCategory: " << item.category
+              << "\nUnits: " << item.units
+              << "\nPrice: " << item.unitPrice << "\n------------------------\n\n";
 }

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <exception>
-// #include "StockList.h"
+#include "StockList.h"
 #include "lib/FileManager.h"
-// #include "lib/SystemLog.h"
+#include "lib/SystemLog.h"
 #include "lib/label.h"
 #include "lib/benchmark.h"
 #include "lib/displayManager.h"
@@ -27,16 +27,16 @@ int main()
         {
             std::cout << "";
             std::cout << smallStart();
-            std::cout << "\n------------ Menu ------------\n";
-            std::cout << "  1. Create                    \n";
-            std::cout << "  2. Read                      \n";
-            std::cout << "  3. Update                    \n";
-            std::cout << "  4. Delete                    \n";
-            std::cout << "  5. Search                    \n";
-            std::cout << "  0. Exit the program          \n";
-            std::cout << "===============================\n";
+            std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+            std::cout << "      1. Create            : add item\n";
+            std::cout << "      2. Read              : table display\n";
+            std::cout << "      3. Update            : use item id\n";
+            std::cout << "      4. Delete            : use item position\n";
+            std::cout << "      5. Search            : look for specific item type\n";
+            std::cout << "      0. Exit the program  : saving log and document\n";
+            std::cout << "   =============================================================================\n";
             inputBox(1);
-            choice = readInt(" ");
+            choice = readInt("  ");
             std::cout << '\n';
             switch (choice)
             {
@@ -100,11 +100,14 @@ int main()
 
 void acceptingInput(Item &item)
 {
-    topBox(1);
+    inputBox(1);
     item.id = readInt("ID: ");
+    inputBox(1);
     item.name = readStr("Name: ");
+    inputBox(1);
     item.category = readStr("Category: ");
+    inputBox(1);
     item.units = readInt("Unit(s): ");
+    inputBox(1);
     item.unitPrice = readFloat("Unit price: ");
-    botBox(1);
 }
