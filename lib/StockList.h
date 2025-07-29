@@ -1,5 +1,4 @@
-#ifndef STOCKLIST_H
-#define STOCKLIST_H
+#pragma once
 #include "Item.h"
 
 /**
@@ -15,17 +14,17 @@ struct Stock
 };
 
 /**
- * @struct Linked List
+ * @class Linked List
  * @brief This structure create address head, tail, and put pos
- * @var n position
- * @var head next pointer
- * @var tail previous pointer
  */
 class List
 {
 public:
+    // position
     int n;
+    // next pointer
     Stock *head;
+    // tail previous pointer
     Stock *tail;
 
     List()
@@ -45,7 +44,7 @@ public:
     }
 
     /**
-     * @brief empty list, important first address
+     * @brief start initalize on first address
      * @return void
      */
     void initList()
@@ -55,9 +54,8 @@ public:
         n = 0;
     }
     /**
-     * @brief End-point insertion : similar to vector push_back.
-     * @param ls pointer to where item will be added
-     * @param data info add to list via Item struct
+     * @brief End-pointer insertion : similar to vector push_back.
+     * @param data add Item to List
      * @return void
      */
     void addItem(Item data)
@@ -74,12 +72,11 @@ public:
         n++;
     }
     /**
-     * @brief look for old info via `id` then update
-     * @param ls point to list
-     * @param oldData not wanted
-     * @param newData replace
-     * @retval `n` amount of changed
-     * @retval `-1` not changed
+     * @brief look for info via `id`, then update
+     * @param oldData id not wanted
+     * @param newData Item to replace
+     * @retval `true` changed
+     * @retval `false` not changed
      */
     bool modifyViaID(const int &id, Item newData)
     {
@@ -93,28 +90,27 @@ public:
             }
             s = s->next;
         }
+        delete s;
         return 0;
     }
     /**
      * @brief Positional delete, pop out when you get that numerical position.
-     * @param List pointer to where item will be added
-     * @param pos numeric point where you want to dispose
-     * @retval `-2` invalid position
-     * @retval `0` success
+     * @param pos position on table where you want to dispose
+     * @retval `false` invalid position
+     * @retval `true` success
      */
-    int deleteAtPos(int pos)
+    bool deleteAtPos(int pos)
     {
-        pos = pos - 1; // adjust real position
         if (n == 0 || pos < 0 || pos >= n)
-            return -1;
+            return false;
         if (pos == 0)
         {
             Stock *tmp = head;
             head = tmp->next;
-            delete tmp;
             if (n == 1)
                 tail = nullptr;
-            return 0;
+            n--;
+            return true;
         }
         else
         {
@@ -128,14 +124,13 @@ public:
             // if pos deleted at end, replace
             if (tmp == tail)
                 tail = current;
-
-            delete tmp;
-            return 0;
+            n--;
+            return true;
         }
     }
     /**
-     * @brief extract out of list
-     * @param ls point to LinkedList
+     * @brief extract Item out of list with ID
+     * @param id product identifier
      * @return void
      */
     void showID(int id)
@@ -149,26 +144,30 @@ public:
                           << " ++\nName: " << s->item.name
                           << "\nCategory: " << s->item.category
                           << "\nUnits: " << s->item.units
-                          << "\nPrice: " << s->item.unitPrice << "\n---------------\n\n";
+                          << "\nPrice: " << s->item.unitPrice << "\n------------------------\n\n";
             }
             s = s->next;
         }
     }
-    enum class PriceType{
-        LESS_THAN, MORE_THAN
-    };
-    void showRangePrice(int price, PriceType typeCompare){
 
-    }
-    void showItem(Item item)
+    void showItem()
     {
-        std::cout << "++ ID: " << item.id
-                  << " ++ \nName: " << item.name
-                  << "\nCategory: " << item.category
-                  << "\nUnits: " << item.units
-                  << "\nPrice: " << item.unitPrice << "\n---------------\n\n";
+        Stock *s = head;
+        while (s != nullptr)
+        {
+            std::cout << "   ID: " << s->item.id << " - " << s->item.name << '\n'
+                      << "Category: " << s->item.category << '\n'
+                      << "unit: " << s->item.units << '\n'
+                      << "Price/unit: " << s->item.unitPrice << '\n';
+        s=s->next;
+        }
     }
-    
+    enum class PriceType
+    {
+        LESS_THAN,
+        MORE_THAN
+    };
+    void showRangePrice(int price, PriceType typeCompare)
+    {
+    }
 };
-
-#endif
