@@ -1,5 +1,4 @@
-#ifndef FILEMANAGER_H
-#define FILEMANAGER_H
+#pragma once
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -156,10 +155,8 @@ public:
             ls->addItem(item);
             index++;
         }
-
+        std::cout << "\n[+] Updated "<< index <<" to list\n";
         InFile.close();
         return 1;
     }
 };
-
-#endif

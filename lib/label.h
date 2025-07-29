@@ -1,8 +1,8 @@
-#ifndef LOGO_H
-#define LOGO_H
+#pragma once
 #include <string>
 #include "DisplayManager.h"
 
+// system emblem for utf-8 v1
 std::string start()
 {
     setCharCode();
@@ -21,18 +21,20 @@ std::string start()
     )";
 }
 
+// system emblem for utf-8 mini
 std::string smallStart(){
      setCharCode();
     return R"(
-    ▄▀▀▀▀▀ ▀▀▀▀▀ ▄▀▀▀▄ ▄▀▀▀▀ █ ▄▀▀       __          ▀▀▀▀▀ ▀▀▄  █ ▀▀▀▀▀ ▄▀▀▀▄
-    ▀▄▄▄▄    █   █   █ █     ██        _|_▀|_          █   █  ▄ █ █▄▄▄  ▀  ▄█
+    ▄▀▀▀▀▀ ▀▀▀▀▀ ▄▀▀▀▄ ▄▀▀▀▀ █ ▄▀▀       __          ▀▀▀▀▀ ▀▄   █ ▀▀▀▀▀ ▄▀▀▀▄
+     ▀▀▀▀▄   █   █   █ █     ██        _|_▀|_          █   █ ▀▄ █ █▄▄▄  ▀  ▄█
     ▄▄▄▄▄█   █   ▀▄▄▄▀ ▄▄▄▄▄ █ ▀▄▄▄   |▄ ||▄▄|       ▄▄█▄▄ █   ▄█ █     ▀▄▄▄▀
-                            ▄▄▄▄▄ ▄▄ ▄▄  ▄▄▄▄ ▄▄▄▄▄  ▄▄▄  ▄▄ ▄▄
+                             ▄▄▄▄ ▄▄ ▄▄  ▄▄▄▄ ▄▄▄▄▄  ▄▄▄  ▄▄ ▄▄
                             ▀▄▄▄▄  █ █  █▄▄▄▄   █   █▄▄▄█ █ ▀ █
                             ▄▄▄▄█   █   ▄▄▄▄█   █   █▄▄▄▄ █   █
     )";
 }
 
+// system emblem for ancii
 std::string simpleStart()
 {
     return  R"(
@@ -56,4 +58,3 @@ std::string simpleStart()
 void loadScreen(){
     
 }
-#endif

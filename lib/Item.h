@@ -1,5 +1,4 @@
-#ifndef ITEM_H
-#define ITEM_H
+#pragma once
 #include <string>
 
 /**
@@ -16,5 +15,3 @@ struct Item
     // `unitPrice` cash values
     double unitPrice;
 };
-
-#endif
