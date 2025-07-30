@@ -1,9 +1,9 @@
-#ifndef SEARCH_H
-#define SEARCH_H
-#include <string>
+#pragma once
 #include <iostream>
+#include <string>
+#include <conio.h>
 #include "StockList.h"
-
+#include "DisplayManager.h"
 int min(int a, int b)
 {
     return a < b ? a : b;
@@ -42,37 +42,81 @@ int levenshtein_distance(std::string usrTxt, std::string dbTxt, bool verbose)
     return d[m][n];
 }
 
-List *levenshtein_search(std::string input, List *ls)
+List *levenshtein_search(std::string input, List *ls, const int &numLook)
 {
-    Stock *s = new Stock;
-    List *tmp = new List;
-    s->next = ls->head;
-    int score, prev[3];
-    for (int i = 0; i < ls->n; i++)
+    if (!ls || ls->n == 0)
+        return nullptr;
+
+    List *collection = new List;
+
+    Stock *curr = new Stock;
+    curr = ls->head;
+    Stock *topLook[3] = {};
+    int score, topScore[3] = {999, 999, 999};
+
+    while (curr != nullptr)
     {
-        score = levenshtein_distance(input, s->item.name, 0);
-        for (int i : prev)
+        score = levenshtein_distance(input, curr->item.name, 0);
+        for (int i = 0; i < numLook; i++)
         {
-            if (prev[i] > score)
+            if (topScore[i] > score)
             {
-                prev[i] = score;
-                if (tmp->head == 0)
+                for (int j = numLook - 1; j > i; --j)
                 {
-                    tmp->head = s;
-                    tmp->n = ls->n;
+                    topScore[j] = topScore[j - 1];
+                    topLook[j] = topLook[j - 1];
                 }
-                else
-                {
-                    tmp->tail = s;
-                    tmp->n = ls->n;
-                }
+
+                topScore[i] = score;
+                topLook[i] = curr;
+                break;
             }
         }
-
-        s=s->next;
+        curr = curr->next;
     }
-    delete s;
-    return tmp;
+    for (int i = 0; i < numLook; i++)
+    {
+        collection->addItem(topLook[i]->item);
+    }
+    return collection;
 }
 
-#endif
+void searchShow(List *ls)
+{
+    std::string input{};
+    char clck;
+    bool isEnter = false;
+
+    while (!isEnter)
+    {
+        system("cls");
+        std::cout << "Search: " << input << '\n';
+
+        List *suggest = levenshtein_search(input, ls, 3);
+        if (suggest && suggest->n > 0)
+        {
+            Stock *curr = suggest->head;
+            while (curr != nullptr)
+            {
+                std::cout << "+ " << curr->item.name << '\n';
+                curr = curr->next;
+            }
+        }
+        else
+            std::cout << "No feedback!\n";
+
+        clck = _getch();
+        if (clck == 13)
+            isEnter = true;
+        else if (clck == 8)
+        {
+            if (!input.empty())
+                input.pop_back();
+        }
+        else
+            input += clck;
+
+        delete suggest;
+    }
+    std::cout << "\nfinal input: " << input << "\n";
+}
