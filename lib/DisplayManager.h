@@ -3,9 +3,17 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <conio.h>
 #include <iomanip>
 #include <locale>
 #include <limits>
+
+/**
+ * @brief set console virtual sequence processing for Command Prompt (CMD) Windows
+ * @return void
+ */
+void setCharCode();
+
 /**
  * @brief change terminal charcode to UTF-8 - standard 4 bytes
  * @return void
@@ -56,6 +64,15 @@ float readFloat(const std::string &);
 std::string readStr(const std::string &);
 
 /**
+ * @brief get key click reader, update input agrument to realtime update (design for search and keylog function)
+ * @param prompt prompt
+ * @param input string address that will track and update
+ * @param state for tracking __isEnter__ boolean key
+ * @return void
+ */
+void readChar(const std::string &, std::string &, bool &);
+
+/**
  * @brief start here text/foreground color change
  * @param r red @param g green @param b blue
  * @return void
@@ -90,6 +107,13 @@ void midBox(int state);
 // close input ui
 void botBox(int state);
 
+void setEnableAnsi()
+{
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD mode = 0;
+    GetConsoleMode(console, &mode);
+    SetConsoleMode(console, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+}
 void setCharCode()
 {
     SetConsoleOutputCP(CP_UTF8);
@@ -183,7 +207,25 @@ std::string readStr(const std::string &prompt)
         std::cout << "\033[D\033[8C";
     }
 }
+void readChar(const std::string &prompt, std::string &input, bool &isEnter)
+{
+    char clck;
+    inputBox(1);
+    std::cout << "\033[2C";
 
+    std::cout << prompt << input;
+    clck = _getch();
+    std::cout <<'\n';
+    if (clck == 13)
+        isEnter = true;
+    else if (clck == 8)
+    {
+        if (!input.empty())
+            input.pop_back();
+    }
+    else if(isprint(clck))
+        input += clck;
+}
 void setFRGB(int r, int g, int b)
 {
     printf("\033[38;2;%d;%d;%dm", r, g, b);
@@ -275,6 +317,7 @@ void tableList(List *ls)
     }
     s = ls->head;
 
+    std::cout << std::endl;
     topCover(" ", '_', idL + nameL + catgL + unitL + priceL + 14);
     std::cout << std::endl;
     std::cout << "| " << std::setw(idL) << "ID"

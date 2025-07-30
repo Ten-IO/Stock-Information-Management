@@ -4,6 +4,8 @@
 #include <conio.h>
 #include "StockList.h"
 #include "DisplayManager.h"
+
+void clearSearchTable(const int &);
 int min(int a, int b)
 {
     return a < b ? a : b;
@@ -51,8 +53,12 @@ List *levenshtein_search(std::string input, List *ls, const int &numLook)
 
     Stock *curr = new Stock;
     curr = ls->head;
-    Stock *topLook[3] = {};
-    int score, topScore[3] = {999, 999, 999};
+    Stock *topLook[numLook] = {};
+    int score, topScore[numLook];
+
+    for (int i=0;i<numLook;i++){
+        topScore[i]=1000;
+    }
 
     while (curr != nullptr)
     {
@@ -81,42 +87,32 @@ List *levenshtein_search(std::string input, List *ls, const int &numLook)
     return collection;
 }
 
-void searchShow(List *ls)
+void fuzzyShow(List *ls, const int &maxLook)
 {
     std::string input{};
-    char clck;
     bool isEnter = false;
-
+    
     while (!isEnter)
     {
-        system("cls");
-        std::cout << "Search: " << input << '\n';
-
-        List *suggest = levenshtein_search(input, ls, 3);
-        if (suggest && suggest->n > 0)
-        {
-            Stock *curr = suggest->head;
-            while (curr != nullptr)
-            {
-                std::cout << "+ " << curr->item.name << '\n';
-                curr = curr->next;
-            }
-        }
+        List *suggest = levenshtein_search(input, ls, maxLook);
+        if (suggest!=nullptr && suggest->n > 0)
+        tableList(suggest);
         else
-            std::cout << "No feedback!\n";
-
-        clck = _getch();
-        if (clck == 13)
-            isEnter = true;
-        else if (clck == 8)
-        {
-            if (!input.empty())
-                input.pop_back();
-        }
-        else
-            input += clck;
-
+        std::cout << "No feedback! - Please use precise search instead [Enter] to leave\n";
+        
         delete suggest;
+        readChar("Search: ", input, isEnter);
+        if(!isEnter)
+        clearSearchTable(maxLook+7); // +7 because counting what we print: box(3)+table(4)
+
     }
-    std::cout << "\nfinal input: " << input << "\n";
+    std::cout << "\n[+] Search stopped..\n";
+}
+
+void clearSearchTable(const int &row){
+    for (int i=0;i<row;i++){
+        std::cout <<"\033[2K";
+        std::cout <<"\033[A";
+    }
+
 }

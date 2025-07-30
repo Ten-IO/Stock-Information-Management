@@ -1,11 +1,12 @@
 #include <iostream>
 #include <exception>
 #include "StockList.h"
-#include "lib/FileManager.h"
-#include "lib/SystemLog.h"
-#include "lib/label.h"
-#include "lib/benchmark.h"
-#include "lib/DisplayManager.h"
+#include "FileManager.h"
+#include "SystemLog.h"
+#include "label.h"
+#include "Benchmark.h"
+#include "DisplayManager.h"
+#include "Search.h"
 void acceptingInput(Item &);
 void __createCase();
 void __readCase();
@@ -14,7 +15,7 @@ void __deleteCase();
 void __searchCase();
 
 int choice;
-const int state = 1;
+const bool state = 1;
 List *stock = new List;
 Item item{};
 
@@ -25,6 +26,7 @@ int main()
     // Timer time;
 
     FileManager f = FileManager(dbname);
+
     if (!f.CsvToList(header, hdSz, stock))
         std::cerr << "[!] Starting with clean csv.\n";
     else
@@ -133,15 +135,41 @@ void __deleteCase()
 {
     int pos;
     std::cout << "      == Delete a products from the stock ==\n";
-    pos = readInt("Enter product's position: ")-1;
+    pos = readInt("Enter product's position: ") - 1;
     if (!stock->deleteAtPos(pos))
         std::cout << "[!] Not found - current index " << stock->n << "\n";
 }
 
 void __searchCase()
 {
-    int id;
-    std::cout << "      == Search for the product ==\n";
-    id = readInt("Enter product ID: ");
-    stock->showItem();
+    std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+    std::cout << "      1. Match Search      : specific item search\n";
+    std::cout << "      2. Fuzzy Search (EXP): proximate surf for product name\n";
+    std::cout << "      0. Exit feature      : go back to main menu\n";
+    std::cout << "   =============================================================================\n";
+    inputBox(state);
+    choice = readInt("Search Feature: ");
+    switch (choice)
+    {
+
+    case 1:
+    {
+        int id;
+        std::cout << "      == Search for the product ==\n";
+        id = readInt("Enter product ID: ");
+        stock->showItem();
+        break;
+    }
+
+    case 2:
+    {
+        std::cout << "\n      == Fuzzy Product Name ==";
+        const int maxLookup = (stock->n < 10) ? stock->n : 10;
+        fuzzyShow(stock, maxLookup);
+        break;
+    }
+
+    default:
+        break;
+    }
 }
