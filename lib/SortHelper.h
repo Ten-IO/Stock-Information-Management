@@ -47,9 +47,9 @@ void mergeSortList(List **, int, int);
 
 Item *ListToArr(List *ls, int size)
 {
-    Item *arr = new Item[size];
     if (size == 0)
         return nullptr;
+    Item *arr = new Item[size];
     Stock *current = ls->head;
     for (int i = 0; i < size && current != nullptr; i++)
     {

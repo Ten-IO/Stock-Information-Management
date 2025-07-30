@@ -8,6 +8,7 @@
 #include "DisplayManager.h"
 #include "Search.h"
 #include "modifier.h"
+#include "SortHelper.h"
 #include "systemLog.h"
 
 void acceptingInput(Item &);
@@ -17,6 +18,7 @@ void __updateCase();
 void __deleteCase();
 void __searchCase();
 void __exportCase();
+void __arrangeCase();
 
 const bool state = 1;
 List *ls = new List;
@@ -47,7 +49,8 @@ int main()
         std::cout << "      4. Delete            : use item position\n";
         std::cout << "      5. Search            : look for specific item type\n";
         std::cout << "      6. Export            : log and record changes of item sales\n";
-        std::cout << "      7. Clear             : clean screen\n";
+        std::cout << "      7. Arrange           : clean, sort\n";
+        std::cout << "      8. Clear             : clean screen\n";
         std::cout << "      0. Exit the program  : saving log and document\n";
         std::cout << "   =============================================================================\n";
         inputBox(state);
@@ -72,6 +75,11 @@ int main()
             break;
         case 6:
             __exportCase();
+            break;
+        case 7:
+            __arrangeCase();
+        case 8:
+        clearScreen();
             break;
         case 0:
             if (f.ListToCsv(ls))
@@ -252,6 +260,25 @@ void __exportCase()
         else
             std::cout << "[!] Please retry ..\n";
     }
+
+    default:
+        break;
+    }
+}
+
+void __arrangeCase()
+{
+    std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+    std::cout << "      1. Descend           : specific item id\n";
+    std::cout << "      0. Exit feature      : go back to main menu\n";
+    std::cout << "   =============================================================================\n";
+    inputBox(state);
+    choice = readInt("Sort Feature: ");
+    switch (choice)
+    {
+    case 1:
+        mergeSortList(&ls, 0, ls->n-1);
+        break;
 
     default:
         break;
