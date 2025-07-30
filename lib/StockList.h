@@ -53,6 +53,21 @@ public:
         tail = nullptr;
         n = 0;
     }
+
+    /**
+     * @brief checking for existing item name
+     * @retval true : exist the same name @retval false : does not exist yet
+     */
+    bool exist(Item item)
+    {
+        Stock *current = head;
+        while (current != nullptr)
+        {
+            if (current->item.name == item.name)
+                return true;
+        }
+        return false;
+    }
     /**
      * @brief End-pointer insertion : similar to vector push_back.
      * @param data add Item to List
@@ -90,7 +105,6 @@ public:
             }
             s = s->next;
         }
-        delete s;
         return 0;
     }
     /**
@@ -99,7 +113,7 @@ public:
      * @retval `false` invalid position
      * @retval `true` success
      */
-    bool deleteAtPos(int pos)
+    bool deleteByPos(int pos)
     {
         if (n == 0 || pos < 0 || pos >= n)
             return false;
@@ -128,26 +142,54 @@ public:
             return true;
         }
     }
+    bool deleteByID(const int &id)
+    {
+        if (head == nullptr)
+            return false;
+        Stock *current = head;
+        Stock *prev = nullptr;
+
+        while (current != nullptr)
+        {
+            if (current->item.id == id)
+            {
+                if (prev == nullptr)
+                {
+                    head = current->next;
+                    if (current == tail)
+                        tail = nullptr;
+                }
+                else
+                {
+                    prev->next = current->next;
+                    if (current == tail)
+                        tail = prev;
+                }
+                delete current;
+                n--;
+                return true;
+            }
+            prev = current;
+            current = current->next;
+        }
+        return false;
+    }
     /**
      * @brief extract Item out of list with ID
      * @param id product identifier
      * @return void
      */
-    void showID(int id)
+    List *searchByID(int id)
     {
+        List *tmpList = new List;
         Stock *s = head;
         while (s != nullptr)
         {
             if (s->item.id == id)
-            {
-                std::cout << "++ ID: " << s->item.id
-                          << " ++\nName: " << s->item.name
-                          << "\nCategory: " << s->item.category
-                          << "\nUnits: " << s->item.units
-                          << "\nPrice: " << s->item.unitPrice << "\n------------------------\n\n";
-            }
+                tmpList->addItem(s->item);
             s = s->next;
         }
+        return tmpList;
     }
 
     void showItem()
@@ -159,7 +201,7 @@ public:
                       << "Category: " << s->item.category << '\n'
                       << "unit: " << s->item.units << '\n'
                       << "Price/unit: " << s->item.unitPrice << '\n';
-        s=s->next;
+            s = s->next;
         }
     }
     enum class PriceType

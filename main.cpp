@@ -7,30 +7,32 @@
 #include "Benchmark.h"
 #include "DisplayManager.h"
 #include "Search.h"
+#include "modifier.h"
+
 void acceptingInput(Item &);
 void __createCase();
 void __readCase();
 void __updateCase();
 void __deleteCase();
 void __searchCase();
+void __exportCase();
 
-int choice;
 const bool state = 1;
-List *stock = new List;
-Item item{};
+List *ls = new List;
+int choice;
 
 int main()
 {
-    std::string dbname = "item.db", header[] = {"id", "name", "category", "unit", "unit price"};
-    int hdSz = sizeof(header) / sizeof(std::string);
-    // Timer time;
+    std::string DATABASE = "item.csv", HEADER[] = {"id", "name", "category", "unit", "unit price"};
+    int HEADER_SZ = sizeof(HEADER) / sizeof(std::string);
 
-    FileManager f = FileManager(dbname);
-
-    if (!f.CsvToList(header, hdSz, stock))
+    Timer time;
+    FileManager f = FileManager(DATABASE);
+    if (!f.CsvToList(HEADER, HEADER_SZ, ls))
         std::cerr << "[!] Starting with clean csv.\n";
     else
         std::cout << "[+] Populating list completed.\n";
+    time.flickStop();
 
     while (true)
     {
@@ -42,6 +44,8 @@ int main()
         std::cout << "      3. Update            : use item id\n";
         std::cout << "      4. Delete            : use item position\n";
         std::cout << "      5. Search            : look for specific item type\n";
+        std::cout << "      6. Export            : log and record changes of item sales\n";
+        std::cout << "      7. Clear             : clean screen\n";
         std::cout << "      0. Exit the program  : saving log and document\n";
         std::cout << "   =============================================================================\n";
         inputBox(state);
@@ -50,38 +54,31 @@ int main()
         switch (choice)
         {
         case 1:
-        {
             __createCase();
             break;
-        }
         case 2:
             __readCase();
             break;
         case 3:
-        {
             __updateCase();
             break;
-        }
         case 4:
-        {
             __deleteCase();
             break;
-        }
         case 5:
-        {
             __searchCase();
             break;
-        }
+        case 6:
+            __exportCase();
+            break;
         case 0:
-        {
-            if (f.ListToCsv(header, hdSz, stock))
+            if (f.ListToCsv(HEADER, HEADER_SZ, ls))
                 std::cout << "[+] Write success!\n";
             else
                 std::cerr << "[!] Error happening\n";
             std::cout << "Exit program\n";
             return 0;
             break;
-        }
 
         default:
             std::cout << "[!] Input is not define, please check from the choice.\n";
@@ -106,38 +103,87 @@ void acceptingInput(Item &item)
 
 void __createCase()
 {
-    std::cout << "      == Add new product to stock - Products information ==\n";
+    std::cout << "\n      == Add new product - Products information ==\n";
+    Item item;
     acceptingInput(item);
-    stock->addItem(item);
+    ls->addItem(item);
 }
 
 void __readCase()
 {
-    tableList(stock);
+    tableList(ls);
 }
 
 void __updateCase()
 {
-    Item oldData, newData;
-    std::cout << "      == Update the products - ProductID ==\n";
+    std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+    std::cout << "      1. By ID             : product ID\n";
+    std::cout << "      0. Exit feature      : go back to main menu\n";
+    std::cout << "   =============================================================================\n";
     inputBox(state);
-    oldData.id = readInt("Enter ID to modify: ");
+    choice = readInt("Update Feature: ");
+    switch (choice)
+    {
+    case 1:
+    {
+        std::cout << "\n      == Update product - ProductID ==\n";
+        inputBox(state);
+        int id = readInt("Enter ID to modify: ");
 
-    acceptingInput(newData);
-    int result = stock->modifyViaID(oldData.id, newData);
-    if (result < -1)
-        std::cout << "Not found\n";
-    else
-        std::cout << result << " updated\n";
+        if (ls->deleteByID(id))
+        {
+            std::cout << "\n[+] found\n";
+            Item item;
+            acceptingInput(item);
+            ls->addItem(item);
+            std::cout << "\n[=] Modified\n";
+        }
+        else
+            std::cout << "\nNot found\n";
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void __deleteCase()
 {
-    int pos;
-    std::cout << "      == Delete a products from the stock ==\n";
-    pos = readInt("Enter product's position: ") - 1;
-    if (!stock->deleteAtPos(pos))
-        std::cout << "[!] Not found - current index " << stock->n << "\n";
+    std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+    std::cout << "      1. By position       : specific position in table\n";
+    std::cout << "      2. By ID             : product ID\n";
+    std::cout << "      0. Exit feature      : go back to main menu\n";
+    std::cout << "   =============================================================================\n";
+    inputBox(state);
+    choice = readInt("Delete Feature: ");
+    switch (choice)
+    {
+    case 1:
+    {
+        int pos;
+        std::cout << "\n      == Delete a products from Stock ==\n";
+        pos = readInt("Enter product's position: ") - 1;
+
+        if (!ls->deleteByPos(pos))
+            std::cout << "[!] Not found - current index " << ls->n << "\n";
+        else
+            std::cout << "[-] Product deleted\n";
+        break;
+    }
+    case 2:
+    {
+        std::cout << "\n      == Delete a products from Stock ==\n";
+        int id = readInt("Enter product's id: ");
+
+        if (ls->deleteByID(id))
+            std::cout << "[-] Deleted found\n";
+        else
+            std::cout << "[!] Not found\n";
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void __searchCase()
@@ -155,18 +201,50 @@ void __searchCase()
     case 1:
     {
         int id;
-        std::cout << "      == Search for the product ==\n";
+        std::cout << "\n      == Search product ID ==\n";
         id = readInt("Enter product ID: ");
-        stock->showItem();
+        List *tmpList = ls->searchByID(id);
+
+        if (tmpList->head != nullptr)
+            tableList(tmpList);
+        delete tmpList;
         break;
     }
 
     case 2:
     {
-        std::cout << "\n      == Fuzzy Product Name ==";
-        const int maxLookup = (stock->n < 10) ? stock->n : 10;
-        fuzzyShow(stock, maxLookup);
+        std::cout << "\n      == Fuzzy Product Name (BETA)==";
+        const int maxLookup = (ls->n < 10) ? ls->n : 10;
+        fuzzyShow(ls, maxLookup);
         break;
+    }
+
+    default:
+        break;
+    }
+}
+
+void __exportCase()
+{
+    std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+    std::cout << "      1. By ID             : specific item id\n";
+    std::cout << "      0. Exit feature      : go back to main menu\n";
+    std::cout << "   =============================================================================\n";
+    inputBox(state);
+    choice = readInt("Export Feature: ");
+    switch (choice)
+    {
+    case 1:
+    {
+        int id, units;
+        std::string name;
+        std::cout << "\n      == Export a product ==\n";
+        inputBox(state);
+        id = readInt("Enter ID: ");
+        if (exportByID(ls, id, name, units))
+            std::cout << "[+] Good job";
+        else
+            std::cout << "[!] Please retry ..\n";
     }
 
     default:
