@@ -29,7 +29,7 @@
 [x] 5  - CRUD
 [x] 6  - File csv
 [x] 7  - Table Display
-[ ] 8  - Sort Algorithm
+[x] 8  - Sort Algorithm
 [x] 9  - Search Algorithm
 [ ] 10 - Profit & Loss report
 [ ] 11 - Product Range List
