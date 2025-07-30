@@ -18,11 +18,15 @@ int main()
     tableList(ls);
 
     std::cout << "Search for \'doni\':\n";
-    List *res = levenshtein_search("doni", ls, 3);
+    List *res = levenshtein_search("doni", ls, 6);
     std::cout << "List for search : \n";
 
     tableList(res);
-
     assert(res->head->item.name == "Donut");
+
+
+    fuzzyShow(ls, 5);
+    std::cout << "[+] search: " << ls->n << '\n';
+    std::cout << "[+] result: " << res->n<<'\n';
     std::cout << "Approved!\n";
 }
