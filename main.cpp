@@ -8,6 +8,7 @@
 #include "DisplayManager.h"
 #include "Search.h"
 #include "modifier.h"
+#include "systemLog.h"
 
 void acceptingInput(Item &);
 void __createCase();
@@ -20,15 +21,16 @@ void __exportCase();
 const bool state = 1;
 List *ls = new List;
 int choice;
+std::string user = "Admin";
+FileLog PRODUCTLOG = FileLog("product.csv");
 
 int main()
 {
-    std::string DATABASE = "item.csv", HEADER[] = {"id", "name", "category", "unit", "unit price"};
-    int HEADER_SZ = sizeof(HEADER) / sizeof(std::string);
+    std::string DATABASE = "item.csv";
 
     Timer time;
     FileManager f = FileManager(DATABASE);
-    if (!f.CsvToList(HEADER, HEADER_SZ, ls))
+    if (!f.CsvToList(ls))
         std::cerr << "[!] Starting with clean csv.\n";
     else
         std::cout << "[+] Populating list completed.\n";
@@ -72,7 +74,7 @@ int main()
             __exportCase();
             break;
         case 0:
-            if (f.ListToCsv(HEADER, HEADER_SZ, ls))
+            if (f.ListToCsv(ls))
                 std::cout << "[+] Write success!\n";
             else
                 std::cerr << "[!] Error happening\n";
@@ -107,6 +109,7 @@ void __createCase()
     Item item;
     acceptingInput(item);
     ls->addItem(item);
+    PRODUCTLOG.writeLog(item.id, item.name, item.units, user, FileLog::IMPORT);
 }
 
 void __readCase()
@@ -242,7 +245,10 @@ void __exportCase()
         inputBox(state);
         id = readInt("Enter ID: ");
         if (exportByID(ls, id, name, units))
-            std::cout << "[+] Good job";
+        {
+            PRODUCTLOG.writeLog(id, name, units, user, FileLog::EXPORT);
+            std::cout << "[+] Update userlog\n";
+        }
         else
             std::cout << "[!] Please retry ..\n";
     }

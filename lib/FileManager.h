@@ -9,14 +9,18 @@ class FileManager
 {
 public:
     std::string fileName;
+    std::string headers[5] = {"id", "name", "category", "unit", "unit price"};
+    int header_sz = 5;
     FileManager(const std::string &initName)
     {
         fileName = checkFile(initName);
         std::ifstream chFile(fileName);
 
-        if (!chFile.is_open()){
+        if (!chFile.is_open())
+        {
             std::cerr << "[!] File does not exist ";
-        initFile(fileName);}
+            initFile(fileName);
+        }
         chFile.close();
     }
 
@@ -41,7 +45,7 @@ public:
             if (c == '.')
                 return tmp + ".csv";
             else if (!((c > 47 && c < 58) || (tolower(c) > 96 && tolower(c) < 123)) && c != '_' && c != '-')
-                throw std::runtime_error(std::string("\nUnidentified sign located in " + fileName + ". Please remove!\n"));
+                throw std::runtime_error(std::string("\n[!] Unidentified sign located in " + fileName + ". Please remove!\n"));
             else
                 tmp += c;
         }
@@ -68,7 +72,7 @@ public:
      * - `0` on file not able to open
      * - `1` on success
      */
-    bool ListToCsv(const std::string headers[], int headerSize, List *ls)
+    bool ListToCsv(List *ls)
     {
         std::ofstream OutFile(fileName);
         std::ifstream readHead(fileName);
@@ -82,12 +86,12 @@ public:
         // header access
         std::string line;
         std::getline(readHead, line);
-        if (!checkHeader(line, headers, headerSize))
+        if (!checkHeader(line, headers, header_sz))
         {
-            for (int i = 0; i < headerSize; i++)
+            for (int i = 0; i < header_sz; i++)
             {
                 OutFile << headers[i];
-                if (i < headerSize - 1)
+                if (i < header_sz - 1)
                     OutFile << ",";
             }
             OutFile << "\n";
@@ -113,12 +117,12 @@ public:
      * @brief File -> List, import data for program
      * @param fileName File + Location
      * @param headers attributes of information
-     * @param headerSize count of headers
+     * @param header_sz count of headers
      * @param ls store address of List
      * @retval `1` on success
      * @retval `0` on file not found
      */
-    bool CsvToList(const std::string headers[], int headerSize, List *ls)
+    bool CsvToList(List *ls)
     {
         std::ifstream InFile(fileName, std::ios::in);
 
@@ -155,7 +159,7 @@ public:
             ls->addItem(item);
             index++;
         }
-        std::cout << "\n[+] Updated "<< index <<" to list\n";
+        std::cout << "\n[+] Updated " << index << " to list\n";
         InFile.close();
         return 1;
     }
