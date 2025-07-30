@@ -23,9 +23,9 @@
 ## To-DO 🔧
 <pre>
 [ ] 1  - _Account_ & User Management
-[ ] 2  - Stock Tracker
+[x] 2  - Stock Tracker
 [ ] 3  - Currency Calculator
-[ ] 4  - Log status
+[x] 4  - Log status
 [x] 5  - CRUD
 [x] 6  - File csv
 [x] 7  - Table Display
@@ -35,6 +35,37 @@
 [ ] 11 - Product Range List
 [ ] 12 - Clean & Link Library
 </pre>
+
+## Folder Structure 🔖
+```
+.
+├── item_chaos.csv
+├── lib
+│   ├── Benchmark.h
+│   ├── DisplayManager.h
+│   ├── FileManager.h
+│   ├── Item.h
+│   ├── label.h
+│   ├── modifier.h
+│   ├── prototypecreator.h
+│   ├── Search.h
+│   ├── SortHelper.h
+│   ├── StockList.h
+│   └── SystemLog.h
+├── main.cpp
+├── Makefile
+├── README.md
+└── test
+    ├── ansii-test.cpp
+    ├── class-stock.cpp
+    ├── header-ptr-test.cpp
+    ├── leven_test.cpp
+    ├── read-test.cpp
+    └── unsolved
+        └── futureFilePath.cpp
+________________________________        
+21 files, 3 directories
+```
 
 ## Build - Run
 \+ Window MSYS2, from [Visual Studio code](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64-on-windows "Install C/C++ toolchain"):
