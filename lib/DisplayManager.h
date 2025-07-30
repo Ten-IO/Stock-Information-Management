@@ -18,7 +18,7 @@ void setCharCode();
  * @brief change terminal charcode to UTF-8 - standard 4 bytes
  * @return void
  */
-void setCharCode();
+void setEnableAnsi();
 
 // save cursor position
 void preCursor();
@@ -89,6 +89,8 @@ void setBRGB(int r, int g, int b);
 // quick reset text&background color & other attributes
 void resetTerm();
 
+// clean terminal
+void clearScreen();
 /**
  * @brief get terminal with by check HANDLER from window.h
  * @retval width
@@ -348,11 +350,14 @@ int getConsoleWidth()
     return -1;
 }
 
-void showItem(Item item)
-{
-    std::cout << "++ ID: " << item.id
-              << " ++ \nName: " << item.name
-              << "\nCategory: " << item.category
-              << "\nUnits: " << item.units
-              << "\nPrice: " << item.unitPrice << "\n------------------------\n\n";
+void clearScreen(){
+    system("cls");
 }
+
+void showItem(Item item)
+    {
+            std::cout << "   ID: " << item.id << " - " << item.name << '\n'
+                      << "Category: " << item.category << '\n'
+                      << "unit: " << item.units << '\n'
+                      << "Price/unit: " << item.unitPrice << '\n';
+    }
