@@ -1,19 +1,35 @@
-#ifndef SYSTEMLOG_H
-#define SYSTEMLOG_H
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <ctime>
 
+/**
+ * @class FileLog
+ * @brief logger for debug
+ */
 class FileLog
 {
-    public: 
+public:
     std::string fileName;
-    
-    FileLog(){
+
+    FileLog(const std::string &initName)
+    {
+        setName(initName);
         std::ifstream LogFile(fileName);
-        if(!LogFile.is_open())
-            throw std::runtime_error("could not located/read file");
+        if (!LogFile.is_open())
+            throw std::runtime_error("[!] could not located/read file\n");
+    }
+
+    // setter
+    void setName(const std::string &initName)
+    {
+        fileName = initName;
+    }
+    // getter
+    std::string getName()
+    {
+        return fileName;
     }
 
     // Level for passing during log
@@ -24,6 +40,12 @@ class FileLog
         ERROR
     };
 
+    /**
+     * @brief message logger
+     * @param codeLevel info, warning, error
+     * @param message to log
+     * return void
+     */
     void logHere(LogLevel codeLevel, const std::string &message)
     {
         std::ofstream LogFile(fileName, std::ios::app);
@@ -47,5 +69,3 @@ class FileLog
         return std::string(buffer);
     }
 };
-
-#endif

@@ -4,7 +4,7 @@
 /**
  * @struct Item
  * @brief represent details of product in stock 
- * contains id, class item, price, along with quantity.
+ * contains order of id, quantity, product name, class category, and price.
  * */
 struct Item
 {

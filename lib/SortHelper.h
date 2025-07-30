@@ -1,5 +1,4 @@
-#ifndef SORTHELPER_H 
-#define SORTHELPER_H
+#pragma once
 #include <iostream>
 #include "StockList.h"
 
@@ -8,15 +7,15 @@
  * @param ls desired sort list
  * @return array : struct Item
  */
-Item *ListToArr(List *, int );
+Item *ListToArr(List *, int);
 
 /**
  * @brief factory assister : take static array turn to LinkedList
  * @param arr point to struct Item
  * @param size identified array size
- * return LinkedList : struct List*
+ * @return LinkedList : struct List*
  */
-List *ArrToList(Item *, int );
+List *ArrToList(Item *, int);
 
 /**
  * @brief divider, comparer, and recontructor for array
@@ -26,25 +25,25 @@ List *ArrToList(Item *, int );
  * @param right hold end pos
  * @return void
  */
-void divideMerge(Item[] , int , int , int );
+void divideMerge(Item[], int, int, int);
 
 /**
  * @brief use merge sort on static arr
  * @param arr point to desired sort Item array
- * @param pos1 starting point of arrangement
+ * @param lb starting point of arrangement
  * @param ub end point of arrangement
  * @return void
  */
-void mergeSortArr(Item*, int , int );
+void mergeSortArr(Item *, int, int);
 
 /**
  * @brief factory for sort, make changes to LinkedList
- * @param List* point linkedlist
- * @param pos1 starting point of arrangement
+ * @param List** ref to pointer of linkedlist
+ * @param lb starting point of arrangement
  * @param ub end point of arrangement
  * @return void
  */
-void mergeSortList(List **ls, int pos1, int ub);
+void mergeSortList(List **, int, int);
 
 Item *ListToArr(List *ls, int size)
 {
@@ -138,5 +137,3 @@ void mergeSortList(List **ls, int lb, int ub)
     *ls = ArrToList(arr, size);
     delete[] arr;
 }
-
-#endif
