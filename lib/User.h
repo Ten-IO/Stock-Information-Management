@@ -92,8 +92,10 @@ public:
             {
                 tmpRole=tmpRole; // clear \n and carriage \r
                 if (hashInput(usr) == tmpUsr && hashInput(passwd) == tmpPasswd && convertRole(role) == tmpRole)
-                    return true;
+              {  file.close();
+                    return true;}
             }
+            file.close();
         return false;
     }
 
