@@ -50,11 +50,11 @@ void displayPickList(List *ls, std::string headers[]);
 int readInt(const std::string &);
 
 /**
- * @brief cin for float, evaluate type float
+ * @brief cin for double, evaluate type double
  * @param prompt prompt before input
- * @return float
+ * @return double
  */
-float readFloat(const std::string &);
+double readDouble(const std::string &);
 
 /**
  * @brief cin for string, evaluate for alphabets and numbers
@@ -155,9 +155,9 @@ int readInt(const std::string &prompt)
         std::cout << "\033[D\033[8C";
     }
 }
-float readFloat(const std::string &prompt)
+double readDouble(const std::string &prompt)
 {
-    float tmp;
+    double tmp;
     std::cout << "\033[2C";
     while (1)
     {
