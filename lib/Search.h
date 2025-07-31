@@ -136,7 +136,7 @@ void fuzzyShow(List *ls, const int &maxLook)
         delete suggest;
         readChar("Search: ", input, isEnter);
         if(!isEnter)
-        clearSearchTable(maxLook+7); // +7 because counting what we print: box(3)+table(4)
+        clearSearchTable(maxLook+8); // +8 because counting what we print: box(3)+table(4)+readChar(1) add-on line
 
     }
     std::cout << "\n[+] Search stopped..\n";

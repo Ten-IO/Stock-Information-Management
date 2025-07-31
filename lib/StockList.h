@@ -86,27 +86,7 @@ public:
         tail = s;
         n++;
     }
-    /**
-     * @brief look for info via `id`, then update
-     * @param oldData id not wanted
-     * @param newData Item to replace
-     * @retval `true` changed
-     * @retval `false` not changed
-     */
-    bool modifyViaID(const int &id, Item newData)
-    {
-        Stock *s = head;
-        while (s != nullptr)
-        {
-            if (s->item.id == id)
-            {
-                s->item = newData;
-                return 1;
-            }
-            s = s->next;
-        }
-        return 0;
-    }
+
     /**
      * @brief Positional delete, pop out when you get that numerical position.
      * @param pos position on table where you want to dispose
@@ -142,7 +122,7 @@ public:
             return true;
         }
     }
-    
+
     bool deleteByID(const int &id)
     {
         if (head == nullptr)
@@ -175,42 +155,106 @@ public:
         }
         return false;
     }
+      bool deleteByName(const std::string &name)
+    {
+        if (head == nullptr)
+            return false;
+        Stock *current = head;
+        Stock *prev = nullptr;
+
+        while (current != nullptr)
+        {
+            if (current->item.name == name)
+            {
+                if (prev == nullptr)
+                {
+                    head = current->next;
+                    if (current == tail)
+                        tail = nullptr;
+                }
+                else
+                {
+                    prev->next = current->next;
+                    if (current == tail)
+                        tail = prev;
+                }
+                delete current;
+                n--;
+                return true;
+            }
+            prev = current;
+            current = current->next;
+        }
+        return false;
+    }
+  
     /**
      * @brief extract Item out of list with ID
      * @param id product identifier
      * @return void
      */
-    List *searchByID(int id)
+    List *searchByIDRange(const int &a, const int &b)
     {
         List *tmpList = new List;
-        Stock *s = head;
-        while (s != nullptr)
+        Stock *e = head;
+        while (e != nullptr)
         {
-            if (s->item.id == id)
-                tmpList->addItem(s->item);
-            s = s->next;
+            if (e->item.id >= a && e->item.id <= b)
+                tmpList->addItem(e->item);
+            e = e->next;
         }
         return tmpList;
     }
+    List *searchByName(const std::string &name)
+    {
+        List *tmpList = new List;
 
-    void showItem()
-    {
-        Stock *s = head;
-        while (s != nullptr)
+        Stock *e = head;
+        while (e != nullptr)
         {
-            std::cout << "   ID: " << s->item.id << " - " << s->item.name << '\n'
-                      << "Category: " << s->item.category << '\n'
-                      << "unit: " << s->item.units << '\n'
-                      << "Price/unit: " << s->item.unitPrice << '\n';
-            s = s->next;
+            if (e->item.name == name)
+                tmpList->addItem(e->item);
+            e = e->next;
         }
+        return tmpList;
     }
-    enum class PriceType
+    List *searchByCategory(const std::string &category)
     {
-        LESS_THAN,
-        MORE_THAN
-    };
-    void showRangePrice(int price, PriceType typeCompare)
+        List *tmpList = new List;
+        Stock *e = head;
+        while (e != nullptr)
+        {
+            if (e->item.category == category)
+                tmpList->addItem(e->item);
+            e = e->next;
+        }
+        return tmpList;
+    }
+    
+    List *searchByUnitRange(int a, int b)
     {
+        List *tmpList = new List;
+        Stock *e = head;
+        while (e != nullptr)
+        {
+            if (e->item.units >= a && e->item.units <= b)
+                tmpList->addItem(e->item);
+
+            e = e->next;
+        }
+        return tmpList;
+    }
+    List *searchByUnitPriceRange(int a, int b)
+    {
+        List *tmpList = new List;
+        Stock *e = head;
+        while (e != nullptr)
+        {
+            if (e->item.unitPrice >= a && e->item.unitPrice <= b)
+                tmpList->addItem(e->item);
+
+            e = e->next;
+        }
+        return tmpList;
     }
 };
