@@ -78,15 +78,17 @@ int main()
             break;
         case 7:
             __arrangeCase();
+            break;
         case 8:
-        clearScreen();
+            clearScreen();
             break;
         case 0:
             if (f.ListToCsv(ls))
                 std::cout << "[+] Write success!\n";
             else
                 std::cerr << "[!] Error happening\n";
-            std::cout << "Exit program\n";
+            std::cout << "[+] Exit program ...\n";
+            delete ls;
             return 0;
             break;
 
@@ -108,7 +110,7 @@ void acceptingInput(Item &item)
     inputBox(state);
     item.units = readInt("Unit(s): ");
     inputBox(state);
-    item.unitPrice = readFloat("Unit price: ");
+    item.unitPrice = readDouble("Unit price: ");
 }
 
 void __createCase()
@@ -129,6 +131,7 @@ void __updateCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
     std::cout << "      1. By ID             : product ID\n";
+    std::cout << "      2. By Name           : product name\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -150,7 +153,25 @@ void __updateCase()
             std::cout << "\n[=] Modified\n";
         }
         else
-            std::cout << "\nNot found\n";
+            std::cout << "\n[!] Not found\n";
+        break;
+    }
+    case 2:
+    {
+        std::cout << "\n      == Update product - Name ==\n";
+        inputBox(state);
+        std::string name = readStr("Product name to modify: ");
+
+        if (ls->deleteByName(name))
+        {
+            std::cout << "\n[+] found\n";
+            Item item;
+            acceptingInput(item);
+            ls->addItem(item);
+            std::cout << "\n[=] Modified\n";
+        }
+        else
+            std::cout << "\n[!] Not found\n";
         break;
     }
     default:
@@ -161,8 +182,9 @@ void __updateCase()
 void __deleteCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
-    std::cout << "      1. By position       : specific position in table\n";
+    std::cout << "      1. By Position       : specific position in table\n";
     std::cout << "      2. By ID             : product ID\n";
+    std::cout << "      3. By Name           : product Name\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -173,6 +195,7 @@ void __deleteCase()
     {
         int pos;
         std::cout << "\n      == Delete a products from Stock ==\n";
+        inputBox(state);
         pos = readInt("Enter product's position: ") - 1;
 
         if (!ls->deleteByPos(pos))
@@ -184,12 +207,25 @@ void __deleteCase()
     case 2:
     {
         std::cout << "\n      == Delete a products from Stock ==\n";
+        inputBox(state);
         int id = readInt("Enter product's id: ");
 
         if (ls->deleteByID(id))
             std::cout << "[-] Deleted found\n";
         else
-            std::cout << "[!] Not found\n";
+            std::cout << "[!] Position out of Bound\n";
+        break;
+    }
+    case 3:
+    {
+        std::cout << "\n      == Delete a products from Stock ==\n";
+        inputBox(state);
+        std::string name = readStr("Enter product's name: ");
+
+        if (ls->deleteByName(name))
+            std::cout << "[-] Deleted found\n";
+        else
+            std::cout << "[!] Product name not found - try search first\n";
         break;
     }
     default:
@@ -200,8 +236,12 @@ void __deleteCase()
 void __searchCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
-    std::cout << "      1. Match Search      : specific item search\n";
-    std::cout << "      2. Fuzzy Search (EXP): proximate surf for product name\n";
+    std::cout << "      1. Match Search      : id range\n";
+    std::cout << "      2.                   : Specific item name\n";
+    std::cout << "      3.                   : item Category\n";
+    std::cout << "      4.                   : Unit range\n";
+    std::cout << "      5.                   : Price Range\n";
+    std::cout << "      6. Fuzzy Search (EXP): proximate surf for product name\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -211,18 +251,87 @@ void __searchCase()
 
     case 1:
     {
-        int id;
-        std::cout << "\n      == Search product ID ==\n";
-        id = readInt("Enter product ID: ");
-        List *tmpList = ls->searchByID(id);
+        int start, end;
+        std::cout << "\n      == Search product id [Hint: same fill lead to specific item] ==\n";
+        inputBox(state);
+        start = readInt("From ID: ");
+        inputBox(state);
+        end = readInt("To ID: ");
+        List *tmpList = ls->searchByIDRange(start, end);
 
         if (tmpList->head != nullptr)
             tableList(tmpList);
+        else
+            std::cout << "\n[-] Range not found\n";
+        delete tmpList;
+        break;
+    }
+    case 2:
+    {
+        std::string name;
+        std::cout << "\n      == Search product name ==\n";
+        inputBox(state);
+        name = readStr("Enter name: ");
+        List *tmpList = ls->searchByName(name);
+
+        if (tmpList->head != nullptr)
+            tableList(tmpList);
+        else
+            std::cout << "\n[-] Product Name not found - try fuzzy search\n";
+        delete tmpList;
+        break;
+    }
+    case 3:
+    {
+        std::string category;
+        std::cout << "\n      == Search product Category ==\n";
+        inputBox(state);
+        category = readStr("Enter Category: ");
+        List *tmpList = ls->searchByCategory(category);
+
+        if (tmpList->head != nullptr)
+            tableList(tmpList);
+        else
+            std::cout << "\n[-] Category not found\n";
+        delete tmpList;
+        break;
+    }
+    case 4:
+    {
+        int start, end;
+        std::cout << "\n      == Search Range Units ==\n";
+        inputBox(state);
+        start = readInt("From Units: ");
+        inputBox(state);
+        end = readInt("Until Units: ");
+        List *tmpList = ls->searchByUnitRange(start, end);
+
+        if (tmpList->head != nullptr)
+            tableList(tmpList);
+        else
+            std::cout << "\n[-] Range not found\n";
+        delete tmpList;
+        break;
+    }
+    case 5:
+    {
+        double start, end;
+        std::cout << "\n      == Search Range Price ==\n";
+        inputBox(state);
+        start = readDouble("Min price: ");
+        inputBox(state);
+        end = readDouble("Max price: ");
+        List *tmpList = ls->searchByUnitPriceRange(start, end);
+
+        if (tmpList->head != nullptr)
+            tableList(tmpList);
+        else
+            std::cout << "\n[-] Range not found\n";
         delete tmpList;
         break;
     }
 
-    case 2:
+    case 6:
     {
         std::cout << "\n      == Fuzzy Product Name (BETA)==";
         const int maxLookup = (ls->n < 10) ? ls->n : 10;
@@ -259,6 +368,23 @@ void __exportCase()
         }
         else
             std::cout << "[!] Please retry ..\n";
+        break;
+    }
+    case 2:
+    {
+        int id, units;
+        std::string name;
+        std::cout << "\n      == Export a product ==\n";
+        inputBox(state);
+        name = readStr("Product name: ");
+        if (exportByID(ls, id, name, units))
+        {
+            PRODUCTLOG.writeLog(id, name, units, user, FileLog::EXPORT);
+            std::cout << "[+] Update userlog\n";
+        }
+        else
+            std::cout << "[!] Please retry ..\n";
+        break;
     }
 
     default:
@@ -269,7 +395,7 @@ void __exportCase()
 void __arrangeCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
-    std::cout << "      1. Descend           : specific item id\n";
+    std::cout << "      1. Descend           : item id\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -277,7 +403,7 @@ void __arrangeCase()
     switch (choice)
     {
     case 1:
-        mergeSortList(&ls, 0, ls->n-1);
+        mergeSortList(&ls, 0, ls->n - 1);
         break;
 
     default:
