@@ -142,6 +142,6 @@ bool exportByName(List *ls, int &id, std::string &name, int &qtyOut)
     name = exportedItem.name;
     qtyOut = exportQty;
 
-    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item name " << name << ".\n";
+    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item name " <<id<<" - "<< name << ".\n";
     return true;
 }

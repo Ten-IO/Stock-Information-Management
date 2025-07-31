@@ -63,7 +63,7 @@ int main()
         }
     }
     Timer time;
-    FileManager DATABASE = FileManager("item_chaos.csv");
+    FileManager DATABASE = FileManager("item.csv");
     if (!DATABASE.CsvToList(ls))
         std::cerr << "\n[!] Starting with clean csv.\n";
     else
