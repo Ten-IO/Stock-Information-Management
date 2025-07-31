@@ -9,7 +9,8 @@
 #include "Search.h"
 #include "modifier.h"
 #include "SortHelper.h"
-#include "systemLog.h"
+#include "SystemLog.h"
+#include "User.h"
 
 void acceptingInput(Item &);
 void __createCase();
@@ -23,22 +24,53 @@ void __arrangeCase();
 const bool state = 1;
 List *ls = new List;
 int choice;
-std::string user = "Admin";
+User AUTH = User("master.csv");
 FileLog PRODUCTLOG = FileLog("product.csv");
 
 int main()
 {
-    std::string DATABASE = "item.csv";
+    setEnableAnsi();
+    setCharCode();
+    while (!AUTH.isConfirm)
+    {
+        std::cout << "HERE: " << AUTH.isConfirm;
+        std::cout << "\n   ---------------------------------- Login -----------------------------------\n";
+        std::cout << "      1. Create            : Register user\n";
+        std::cout << "      2. Admin             : Access All feature\n";
+        std::cout << "      3. User              : Cannot delete item that is in the program\n";
+        std::cout << "      0. Exit the program  : Stop\n";
+        std::cout << "   =============================================================================\n";
+        inputBox(state);
+        int choice = readInt(" ");
 
+        switch (choice)
+        {
+        case 1:
+            if (AUTH.loginAdmin())
+                AUTH.regAcc();
+            break;
+        case 2:
+            AUTH.loginAdmin();
+            break;
+        case 3:
+            AUTH.loginNormal();
+        case 0:
+            std::cout << "[+] Exit program ...\n";
+            delete ls;
+            return 0;
+        default:
+            break;
+        }
+    }
     Timer time;
-    FileManager f = FileManager(DATABASE);
-    if (!f.CsvToList(ls))
+    FileManager DATABASE = FileManager("item.csv");
+    if (!DATABASE.CsvToList(ls))
         std::cerr << "[!] Starting with clean csv.\n";
     else
         std::cout << "[+] Populating list completed.\n";
     time.flickStop();
 
-    while (true)
+    while (AUTH.isConfirm)
     {
         std::cout << "\n\n";
         std::cout << smallStart();
@@ -83,7 +115,7 @@ int main()
             clearScreen();
             break;
         case 0:
-            if (f.ListToCsv(ls))
+            if (DATABASE.ListToCsv(ls))
                 std::cout << "[+] Write success!\n";
             else
                 std::cerr << "[!] Error happening\n";
@@ -119,7 +151,7 @@ void __createCase()
     Item item;
     acceptingInput(item);
     ls->addItem(item);
-    PRODUCTLOG.writeLog(item.id, item.name, item.units, user, FileLog::IMPORT);
+    PRODUCTLOG.writeLog(item.id, item.name, item.units, AUTH.usr, FileLog::LogLevel::IMPORT);
 }
 
 void __readCase()
@@ -363,7 +395,7 @@ void __exportCase()
         id = readInt("Enter ID: ");
         if (exportByID(ls, id, name, units))
         {
-            PRODUCTLOG.writeLog(id, name, units, user, FileLog::EXPORT);
+            PRODUCTLOG.writeLog(id, name, units, AUTH.usr, FileLog::EXPORT);
             std::cout << "[+] Update userlog\n";
         }
         else
@@ -379,7 +411,7 @@ void __exportCase()
         name = readStr("Product name: ");
         if (exportByID(ls, id, name, units))
         {
-            PRODUCTLOG.writeLog(id, name, units, user, FileLog::EXPORT);
+            PRODUCTLOG.writeLog(id, name, units, AUTH.usr, FileLog::EXPORT);
             std::cout << "[+] Update userlog\n";
         }
         else
