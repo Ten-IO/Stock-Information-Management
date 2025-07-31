@@ -23,9 +23,10 @@ std::string start()
 }
 
 // system emblem for utf-8 mini
-std::string smallStart(){
+std::string smallStart()
+{
     setEnableAnsi();
-     setCharCode();
+    setCharCode();
     return R"(
     ▄▀▀▀▀▀ ▀▀▀▀▀ ▄▀▀▀▄ ▄▀▀▀▀ █ ▄▀▀       __          ▀▀▀▀▀ ▀▄   █ ▀▀▀▀▀ ▄▀▀▀▄
      ▀▀▀▀▄   █   █   █ █     ██        _|_▀|_          █   █ ▀▄ █ █▄▄▄  ▀  ▄█
@@ -39,7 +40,7 @@ std::string smallStart(){
 // system emblem for ancii
 std::string simpleStart()
 {
-    return  R"(
+    return R"(
                  ____  _             _                                        
                 / ___|| |_ ___   ___| | __                                    
                 \___ \| __/ _ \ / __| |/ /                                    
@@ -57,6 +58,6 @@ std::string simpleStart()
     )";
 }
 
-void loadScreen(){
-    
+void loadScreen()
+{
 }
