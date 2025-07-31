@@ -33,7 +33,6 @@ int main()
     setCharCode();
     while (!AUTH.isConfirm)
     {
-        std::cout << "HERE: " << AUTH.isConfirm;
         std::cout << "\n   ---------------------------------- Login -----------------------------------\n";
         std::cout << "      1. Create            : Register user\n";
         std::cout << "      2. Admin             : Access All feature\n";
@@ -54,6 +53,7 @@ int main()
             break;
         case 3:
             AUTH.loginNormal();
+            break;
         case 0:
             std::cout << "[+] Exit program ...\n";
             delete ls;
@@ -63,11 +63,11 @@ int main()
         }
     }
     Timer time;
-    FileManager DATABASE = FileManager("item.csv");
+    FileManager DATABASE = FileManager("item_chaos.csv");
     if (!DATABASE.CsvToList(ls))
-        std::cerr << "[!] Starting with clean csv.\n";
+        std::cerr << "\n[!] Starting with clean csv.\n";
     else
-        std::cout << "[+] Populating list completed.\n";
+        std::cout << "\n[+] Populating list completed.\n";
     time.flickStop();
 
     while (AUTH.isConfirm)
@@ -119,7 +119,7 @@ int main()
                 std::cout << "[+] Write success!\n";
             else
                 std::cerr << "[!] Error happening\n";
-            std::cout << "[+] Exit program ...\n";
+            std::cout << "\n[+] Exit program ...\n";
             delete ls;
             return 0;
             break;

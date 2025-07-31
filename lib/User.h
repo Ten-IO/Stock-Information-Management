@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <conio.h>
 #include "DisplayManager.h"
 enum class Role
 {
@@ -87,9 +88,10 @@ public:
         std::string tmpUsr, tmpPasswd, tmpRole;
         std::ifstream file(__fileName);
         if (file.is_open())
-            while (std::getline(file, tmpUsr, ',') && std::getline(file, tmpPasswd, ',') && std::getline(file, tmpRole, ','))
+            while (std::getline(file, tmpUsr, ',') && std::getline(file, tmpPasswd, ',') && std::getline(file, tmpRole, '\n'))
             {
-                if (hashInput(usr) == tmpUsr && hashInput(passwd) == tmpPasswd && hashInput(convertRole(role)) == tmpRole)
+                tmpRole=tmpRole; // clear \n and carriage \r
+                if (hashInput(usr) == tmpUsr && hashInput(passwd) == tmpPasswd && convertRole(role) == tmpRole)
                     return true;
             }
         return false;
@@ -104,9 +106,17 @@ public:
         inputBox(1);
         std::cout << "\033[6CPassword: ";
         std::cin >> passwd;
+        inputBox(1);
+        std::string roleInput;
+        std::cout << "\033[6CSelect role (admin/user): ";
+        std::cin >> roleInput;
+        if (roleInput == "admin")
+            role = Role::ADMIN;
+        else
+            role = Role::USER;
 
         std::ofstream fileReg(__fileName, std::ios::app);
-        fileReg << hashInput(usr) << ',' << hashInput(passwd) << ',' << hashInput(convertRole(role));
+        fileReg << hashInput(usr) << ',' << hashInput(passwd) << ',' << convertRole(role) << "\n";
         fileReg.close();
     }
 
@@ -115,7 +125,7 @@ public:
         std::cout << "\n      == Login as Admin user ==\n";
         role = Role::ADMIN;
         inputBox(1);
-        std::cout << "U\033[6Csername: ";
+        std::cout << "\033[6CUsername: ";
         std::cin >> usr;
         inputBox(1);
         std::cout << "\033[6CPassword: ";
@@ -144,11 +154,11 @@ public:
         isConfirm = check(usr, passwd, role);
         if (isConfirm)
         {
-            std::cout << "[+] Login successful!\n";
+            std::cout << "\n[+] Login successful!\n";
             clearScreen();
             return true;
         }
-        std::cout << "[!] Error! login unsuccessful, please check your information again.\n";
+        std::cout << "\n[!] Error! login unsuccessful, please check your information again.\n";
         return false;
     }
     bool loginNormal()
@@ -156,7 +166,7 @@ public:
         std::cout << "\n      == Login as Normal user ==\n";
         role = Role::USER;
         inputBox(1);
-        std::cout << "U\033[6Csername: ";
+        std::cout << "\033[6CUsername: ";
         std::cin >> usr;
         inputBox(1);
         std::cout << "\033[6CPassword: ";
@@ -185,11 +195,11 @@ public:
         isConfirm = check(usr, passwd, role);
         if (isConfirm)
         {
-            std::cout << "[+] Login successful!\n";
+            std::cout << "\n[+] Login successful!\n";
             clearScreen();
             return true;
         }
-        std::cout << "[!] Error! login unsuccessful, please check your password again.\n";
+        std::cout << "\n[!] Error! login unsuccessful, please check your password again.\n";
         return false;
     }
 };
