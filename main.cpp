@@ -46,7 +46,10 @@ int main()
         {
         case 1:
             if (AUTH.loginAdmin())
+            {
+                AUTH.role = Role::USER;
                 AUTH.regAcc();
+            }
             break;
         case 2:
             AUTH.loginAdmin();
