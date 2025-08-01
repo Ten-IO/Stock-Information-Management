@@ -385,6 +385,7 @@ void __exportCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
     std::cout << "      1. By ID             : specific item id\n";
+    std::cout << "      2. By Name           : specific item name\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
