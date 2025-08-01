@@ -58,7 +58,7 @@ int main()
             AUTH.loginNormal();
             break;
         case 0:
-            std::cout << "[+] Exit program ...\n";
+            std::cout << "\n[+] Exit program ...\n";
             delete ls;
             return 0;
         default:
@@ -119,9 +119,9 @@ int main()
             break;
         case 0:
             if (DATABASE.ListToCsv(ls))
-                std::cout << "[+] Write success!\n";
+                std::cout << "[+] Write success!";
             else
-                std::cerr << "[!] Error happening\n";
+                std::cerr << "[!] Error happening";
             std::cout << "\n[+] Exit program ...\n";
             delete ls;
             return 0;
@@ -368,9 +368,11 @@ void __searchCase()
 
     case 6:
     {
-        std::cout << "\n      == Fuzzy Product Name (BETA)==";
+        std::cout << "\n      == Fuzzy Product Name (BETA)==\n";
         const int maxLookup = (ls->n < 10) ? ls->n : 10;
+        if(ls->n>0)
         fuzzyShow(ls, maxLookup);
+        else std::cout << "[!] There is not sufficient information to check from Stock.\n"
         break;
     }
 
