@@ -2,6 +2,11 @@
 #include <string>
 #include "DisplayManager.h"
 
+std::string start();
+std::string smallStart();
+std::string simpleStart();
+void loadScreen();
+
 // system emblem for utf-8 v1
 std::string start()
 {
@@ -60,4 +65,5 @@ std::string simpleStart()
 
 void loadScreen()
 {
+    
 }
