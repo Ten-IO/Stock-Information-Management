@@ -21,11 +21,11 @@ public:
         if (!LogFile.is_open())
         {
             std::ofstream init(fileName);
-            std::cout << "[+] Start clean log\n";
+            std::cout << "\n[+] Start clean log\n";
             init.close();
         }
         else
-            std::cout << "[+] Log file confirmed";
+            std::cout << "\n[+] Log file confirmed\n";
         LogFile.close();
     }
 

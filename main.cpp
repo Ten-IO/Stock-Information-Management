@@ -234,9 +234,9 @@ void __deleteCase()
         pos = readInt("Enter product's position: ") - 1;
 
         if (!ls->deleteByPos(pos))
-            std::cout << "[!] Not found - current index " << ls->n << "\n";
+            std::cout << "\n[!] Not found - current index " << ls->n << "\n";
         else
-            std::cout << "[-] Product deleted\n";
+            std::cout << "\n[-] Product deleted\n";
         break;
     }
     case 2:
@@ -246,9 +246,9 @@ void __deleteCase()
         int id = readInt("Enter product's id: ");
 
         if (ls->deleteByID(id))
-            std::cout << "[-] Deleted found\n";
+            std::cout << "\n[-] Deleted found\n";
         else
-            std::cout << "[!] Position out of Bound\n";
+            std::cout << "\n[!] Position out of Bound\n";
         break;
     }
     case 3:
@@ -258,9 +258,9 @@ void __deleteCase()
         std::string name = readStr("Enter product's name: ");
 
         if (ls->deleteByName(name))
-            std::cout << "[-] Deleted found\n";
+            std::cout << "\n[-] Deleted found\n";
         else
-            std::cout << "[!] Product name not found - try search first\n";
+            std::cout << "\n[!] Product name not found - try search first\n";
         break;
     }
     default:
@@ -372,7 +372,7 @@ void __searchCase()
         const int maxLookup = (ls->n < 10) ? ls->n : 10;
         if(ls->n>0)
         fuzzyShow(ls, maxLookup);
-        else std::cout << "[!] There is not sufficient information to check from Stock.\n"
+        else std::cout << "\n[!] There is not sufficient information to check from Stock.\n";
         break;
     }
 
@@ -401,10 +401,10 @@ void __exportCase()
         if (exportByID(ls, id, name, units))
         {
             PRODUCTLOG.writeLog(id, name, units, AUTH.usr, FileLog::EXPORT);
-            std::cout << "[+] Update userlog\n";
+            std::cout << "\n[+] Update userlog\n";
         }
         else
-            std::cout << "[!] Please retry ..\n";
+            std::cout << "\n[!] Please retry ..\n";
         break;
     }
     case 2:
@@ -417,10 +417,10 @@ void __exportCase()
         if (exportByID(ls, id, name, units))
         {
             PRODUCTLOG.writeLog(id, name, units, AUTH.usr, FileLog::EXPORT);
-            std::cout << "[+] Update userlog\n";
+            std::cout << "\n[+] Update userlog\n";
         }
         else
-            std::cout << "[!] Please retry ..\n";
+            std::cout << "\n[!] Please retry ..\n";
         break;
     }
 
@@ -432,7 +432,7 @@ void __exportCase()
 void __arrangeCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
-    std::cout << "      1. Descend           : item id\n";
+    std::cout << "      1. Ascend            : item id\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
