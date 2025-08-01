@@ -22,7 +22,7 @@
 
 ## To-DO 🔧
 <pre>
-[ ] 1  - _Account_ & User Management
+[x] 1  - _Account_ & User Management
 [x] 2  - Stock Tracker
 [ ] 3  - Currency Calculator
 [x] 4  - Log status
@@ -31,9 +31,11 @@
 [x] 7  - Table Display
 [x] 8  - Sort Algorithm
 [x] 9  - Search Algorithm
-[ ] 10 - Profit & Loss report
+[ ] 10 - Profit & Loss revenue report
 [ ] 11 - Product Range List
-[ ] 12 - Clean & Link Library
+[ ] 12 - Log Bugs
+[ ] 13 - Documentation
+[ ] 14 - Clean & Link Library
 </pre>
 
 ## Folder Structure 🔖
