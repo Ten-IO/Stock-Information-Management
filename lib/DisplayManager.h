@@ -217,7 +217,7 @@ void readChar(const std::string &prompt, std::string &input, bool &isEnter)
 
     std::cout << prompt << input;
     clck = _getch();
-    std::cout <<'\n';
+    std::cout << '\n';
     if (clck == 13)
         isEnter = true;
     else if (clck == 8)
@@ -225,8 +225,37 @@ void readChar(const std::string &prompt, std::string &input, bool &isEnter)
         if (!input.empty())
             input.pop_back();
     }
-    else if(isprint(clck))
+    else if (isprint(clck))
         input += clck;
+}
+
+std::string readPasswd(const std::string prompt)
+{
+    std::string passwd;
+    inputBox(1);
+    char ch;
+    std::cout << "\033[6C" << prompt;
+    while (true)
+    {
+        ch = _getch();
+        if (ch == 13)
+            break;
+        else if (ch == 8)
+        {
+            if (!passwd.empty())
+            {
+                passwd.pop_back();
+                std::cout << "\b \b";
+            }
+        }
+        else
+        {
+            passwd.push_back(ch);
+            std::cout << '*';
+        }
+    }
+    std::cout << '\n';
+    return passwd;
 }
 void setFRGB(int r, int g, int b)
 {
@@ -350,14 +379,15 @@ int getConsoleWidth()
     return -1;
 }
 
-void clearScreen(){
+void clearScreen()
+{
     system("cls");
 }
 
 void showItem(Item item)
-    {
-            std::cout << "   ID: " << item.id << " - " << item.name << '\n'
-                      << "Category: " << item.category << '\n'
-                      << "unit: " << item.units << '\n'
-                      << "Price/unit: " << item.unitPrice << '\n';
-    }
+{
+    std::cout << "   ID: " << item.id << " - " << item.name << '\n'
+              << "Category: " << item.category << '\n'
+              << "unit: " << item.units << '\n'
+              << "Price/unit: " << item.unitPrice << '\n';
+}
