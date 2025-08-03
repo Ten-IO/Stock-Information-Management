@@ -32,7 +32,7 @@
 [x] 8  - Sort Algorithm
 [x] 9  - Search Algorithm
 [ ] 10 - Profit & Loss revenue report
-[ ] 11 - Product Range List
+[x] 11 - Product Range List
 [ ] 12 - Log Bugs
 [ ] 13 - Documentation
 [ ] 14 - Clean & Link Library
@@ -71,8 +71,8 @@ ________________________________
 
 ## Build - Run
 \+ Window MSYS2, from [Visual Studio code](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64-on-windows "Install C/C++ toolchain"):
-- MUST HAVE [MSYS2](https://www.msys2.org/) installed
-- ensure `make` is installed in MSYS2, `pacman -S --needed make`
+- MUST HAVE [MSYS2](https://www.msys2.org/) installed - native Windows GNU environment 
+- ensure `mingw toolchain` is installed in MSYS2,  to compile C++ code. Use `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain` in MSYS2
 - run `mingw32-make` in project folder `Stock Information System`
 
 ## Diagram ⚡
