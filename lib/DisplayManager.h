@@ -109,6 +109,20 @@ void midBox(int state);
 // close input ui
 void botBox(int state);
 
+/**
+ * @struct 
+ * @brief structure - container for Item table character length
+ * @param idL @param nameL @param catgL @param unitL @param priceL
+ */
+struct ColumnLength;
+
+/**
+ * @brief method for looping target LinkedList to get max width table for each col
+ * @param List linkedlist to scan for
+ * @retval ColumnLength - structure of table length
+ */
+ColumnLength maxCoLen(List *ls);
+
 void setEnableAnsi()
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);

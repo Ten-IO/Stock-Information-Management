@@ -23,16 +23,16 @@ List *ArrToList(Item *, int);
  * @param left hold start pos
  * @param mid hold medium pos
  * @param right hold end pos
- * @return void
+ * @return void - sorting value of divided arrays
  */
 void divideMerge(Item[], int, int, int);
 
 /**
- * @brief use merge sort on static arr
+ * @brief to merge sort on static arr
  * @param arr point to desired sort Item array
  * @param lb starting point of arrangement
  * @param ub end point of arrangement
- * @return void
+ * @return void - combine divided arrays from divideMerge()
  */
 void mergeSortArr(Item *, int, int);
 
@@ -41,7 +41,7 @@ void mergeSortArr(Item *, int, int);
  * @param List** ref to pointer of linkedlist
  * @param lb starting point of arrangement
  * @param ub end point of arrangement
- * @return void
+ * @return void - combine get Linkedlist by combine divided arrays and convert back
  */
 void mergeSortList(List **, int, int);
 
