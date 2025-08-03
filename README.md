@@ -31,7 +31,7 @@
 [x] 7  - Table Display
 [x] 8  - Sort Algorithm
 [x] 9  - Search Algorithm
-[ ] 10 - Profit & Loss revenue report
+[x] 10 - Profit & Loss revenue report
 [x] 11 - Product Range List
 [ ] 12 - Log Bugs
 [ ] 13 - Documentation
