@@ -68,6 +68,20 @@ public:
         }
         return false;
     }
+
+    void reverse()
+    {
+        Stock *prev = nullptr, *current = head, *next = nullptr;
+        tail = head;
+        while (current != nullptr)
+        {
+            next = current->next;
+            current->next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
+    }
     /**
      * @brief End-pointer insertion : similar to vector push_back.
      * @param data add Item to List
@@ -155,7 +169,7 @@ public:
         }
         return false;
     }
-      bool deleteByName(const std::string &name)
+    bool deleteByName(const std::string &name)
     {
         if (head == nullptr)
             return false;
@@ -187,7 +201,7 @@ public:
         }
         return false;
     }
-  
+
     /**
      * @brief extract Item out of list with ID
      * @param id product identifier
@@ -230,7 +244,7 @@ public:
         }
         return tmpList;
     }
-    
+
     List *searchByUnitRange(int a, int b)
     {
         List *tmpList = new List;
@@ -257,4 +271,13 @@ public:
         }
         return tmpList;
     }
+
+    void cleanID(){
+        Stock *current = head;
+        int i = 0;
+        while(current!=nullptr){
+            current->item.id = ++i;
+            current = current->next;
+        }
+    } 
 };

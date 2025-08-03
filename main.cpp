@@ -1,16 +1,15 @@
 #include <iostream>
 #include <exception>
+#include "label.h"
+#include "User.h"
 #include "StockList.h"
+#include "modifier.h"
+#include "Search.h"
+#include "SortHelper.h"
+#include "DisplayManager.h"
 #include "FileManager.h"
 #include "SystemLog.h"
-#include "label.h"
 #include "Benchmark.h"
-#include "DisplayManager.h"
-#include "Search.h"
-#include "modifier.h"
-#include "SortHelper.h"
-#include "SystemLog.h"
-#include "User.h"
 
 void acceptingInput(Item &);
 void __createCase();
@@ -365,14 +364,14 @@ void __searchCase()
         delete tmpList;
         break;
     }
-
     case 6:
     {
         std::cout << "\n      == Fuzzy Product Name (BETA)==\n";
         const int maxLookup = (ls->n < 10) ? ls->n : 10;
-        if(ls->n>0)
-        fuzzyShow(ls, maxLookup);
-        else std::cout << "\n[!] There is not sufficient information to check from Stock.\n";
+        if (ls->n > 0)
+            fuzzyShow(ls, maxLookup);
+        else
+            std::cout << "\n[!] There is not sufficient information to check from Stock.\n";
         break;
     }
 
@@ -386,6 +385,7 @@ void __exportCase()
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
     std::cout << "      1. By ID             : specific item id\n";
     std::cout << "      2. By Name           : specific item name\n";
+    std::cout << "      2. Quick Summary     : Check profit\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -408,6 +408,7 @@ void __exportCase()
             std::cout << "\n[!] Please retry ..\n";
         break;
     }
+
     case 2:
     {
         int id, units;
@@ -434,6 +435,8 @@ void __arrangeCase()
 {
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
     std::cout << "      1. Ascend            : item id\n";
+    std::cout << "      2. Descend           : item id\n";
+    std::cout << "      3. Clean ID          : clean by reset id to its position\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -442,6 +445,18 @@ void __arrangeCase()
     {
     case 1:
         mergeSortList(&ls, 0, ls->n - 1);
+        std::cout << "\n[+] Ascending ID completed.\n";
+        break;
+
+    case 2:
+        mergeSortList(&ls, 0, ls->n - 1);
+        ls->reverse();
+        std::cout << "\n[+] Descending ID completed.\n";
+        break;
+
+    case 3:
+        ls->cleanID();
+        std::cout << "\n[+] ID Arrangement completed.\n";
         break;
 
     default:
