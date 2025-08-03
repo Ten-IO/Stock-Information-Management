@@ -390,7 +390,7 @@ void __exportCase()
     std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
     std::cout << "      1. By ID             : specific item id\n";
     std::cout << "      2. By Name           : specific item name\n";
-    std::cout << "      2. Quick Summary     : Check profit\n";
+    std::cout << "      3. Quick Summary     : Check profit\n";
     std::cout << "      0. Exit feature      : go back to main menu\n";
     std::cout << "   =============================================================================\n";
     inputBox(state);
@@ -423,7 +423,7 @@ void __exportCase()
         std::cout << "\n      == Export a product ==\n";
         inputBox(state);
         name = readStr("Product name: ");
-        if (exportByID(ls, id, name, units, price))
+        if (exportByName(ls, id, name, units, price))
         {
             PRODUCTLOG.writeLog(id, name, units, price, AUTH.usr, FileLog::EXPORT);
             std::cout << "\n[+] Update userlog\n";
@@ -434,8 +434,28 @@ void __exportCase()
     }
 
     case 3:
-        std::cerr << "\n[+] In progress, feature will be add in the future\n";
+    {
+        try
+        {
+            List *tmpList = new List();
+            tmpList = PRODUCTLOG.readLog();
+            if (tmpList->head != nullptr)
+            {
+                std::cout << "\nStarting read..\n";
+                tableList(tmpList);
+                reportList(tmpList);
+                delete tmpList;
+            }
+            else
+                std::cout << "\n[!] List is empty, cannot parse well.\n";
+        }
+        catch (std::exception e)
+        {
+            std::cerr << "\n[!] Exception: " << e.what() << '\n';
+            std::cerr.flush();
+        }
         break;
+    }
     default:
         break;
     }

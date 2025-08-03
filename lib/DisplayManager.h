@@ -391,3 +391,24 @@ void showItem(Item item)
               << "unit: " << item.units << '\n'
               << "Price/unit: " << item.unitPrice << '\n';
 }
+
+struct ColumnLength
+{
+    int idL = 3, nameL = 10, catgL = 8, unitL = 5, priceL = 8;
+};
+
+ColumnLength maxCoLen(List *ls)
+{
+    ColumnLength len;
+    Stock *s = ls->head;
+    while (s != nullptr)
+    {
+        max(len.idL, static_cast<int>(std::to_string(s->item.id).length()));
+        max(len.nameL, s->item.name.length());
+        max(len.catgL, s->item.category.length());
+        max(len.unitL, static_cast<int>(std::to_string(s->item.units).length()));
+        max(len.priceL, static_cast<int>(std::to_string(s->item.unitPrice).length()));
+        s=s->next;
+    }
+    return len;
+}

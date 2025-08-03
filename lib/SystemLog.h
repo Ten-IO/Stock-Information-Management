@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
 #include <ctime>
 
 /**
@@ -121,7 +120,7 @@ public:
 
     void writeLog(int id, const std::string &name, int units, const double &price, const std::string &user, LogLevel LOG)
     {
-        const std::string LOG_HEADER[] = {"id", "product name", "units", "export price", "activity", "user", "date", "time"};
+        const std::string LOG_HEADER[] = {"id", "product name", "units", "price", "activity", "user", "date", "time"};
         const size_t LOG_HEADER_SZ = sizeof(LOG_HEADER) / sizeof(LOG_HEADER[0]);
 
         std::ofstream WriteFile(fileName, std::ios::app);
@@ -154,9 +153,53 @@ public:
         std::string dateStr, timeStr;
         getCurrentDateTime(dateStr, timeStr);
 
-        WriteFile << id << "," << name << "," << units << "," << price << "," << levelToStr(LOG) << "," << user<<','<< dateStr << "," << timeStr << "\n";
+        WriteFile << id << "," << name << "," << units << "," << price << "," << levelToStr(LOG) << "," << user << ',' << dateStr << "," << timeStr << "\n";
         WriteFile.close();
     }
 
-  
+    List *readLog()
+    {
+
+        std::string line, blk[6];
+        int col;
+        List *ls = new List();
+
+        const std::string LOG_HEADER[] = {"id", "product name", "units", "price", "activity", "user", "date", "time"};
+        int LOG_HEADER_SZ = sizeof(LOG_HEADER) / sizeof(LOG_HEADER[0]);
+        std::ifstream ReadFile(fileName);
+        std::getline(ReadFile, line);
+        if (!checkHeader(line, LOG_HEADER, LOG_HEADER_SZ))
+        {
+            ReadFile.close();
+            std::cout << "\n[-] " << fileName << " Header problems..\n";
+        }
+
+        std::stringstream ss(line);
+        std::string token;
+        col = 0;
+        while (std::getline(ss, token, ',') && col < 6)
+        {
+            blk[col++] = token;
+        }
+        while (std::getline(ReadFile, line))
+        {
+            col = 0;
+            blk[0].clear(), blk[1].clear(), blk[2].clear(), blk[3].clear(), blk[4].clear(), blk[5].clear();
+            for (char c : line)
+            {
+                if (c == ',')
+                {
+                    col++;
+                    if (col == 6)
+                        break;
+                }
+                else
+                    blk[col] += c;
+            }
+            blk[4] += std::string(" by ") + blk[5];
+            ls->addItem(Item{std::stoi(blk[0]), std::stoi(blk[2]), blk[1], blk[4], std::stod(blk[3])});
+        }
+        ReadFile.close();
+        return ls;
+    }
 };

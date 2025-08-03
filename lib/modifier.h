@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include "StockList.h"
-#include "DisplayManager.h"
 
 bool exportByID(List *ls, int &id, std::string &name, int &qtyOut, double &price)
 {
@@ -74,7 +73,7 @@ bool exportByID(List *ls, int &id, std::string &name, int &qtyOut, double &price
     name = ExportItem.name;
     qtyOut = exportQty;
 
-    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item " << id << " - " << name << ".\n";
+    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item [" << id << " - " << name << "].\n";
     return true;
 }
 
@@ -145,14 +144,52 @@ bool exportByName(List *ls, int &id, std::string &name, int &qtyOut, double &pri
         ls->n--;
     }
 
-    name = exportedItem.name;
+    id = exportedItem.id;
     qtyOut = exportQty;
 
-    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item " << id << " - " << name << ".\n";
+    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item [" << id << " - " << name << "].\n";
     return true;
 }
 
 void reportList(List *ls)
 {
+    if (ls == nullptr)
+    {
+        std::cerr << "\n[!] Empty Report..\n";
+        return;
+    }
 
+    Stock *s = ls->head;
+    std::string tmpType;
+    double revenue{}, cost{}, profit{};
+    while (s != nullptr)
+    {
+        tmpType.clear();
+        for (char c : s->item.category)
+        {
+            if (c == ' ')
+                break;
+            else
+                tmpType += c;
+        }
+        if (tmpType == "export")
+            revenue += s->item.unitPrice * s->item.units;
+        else if (tmpType == "import")
+            cost += s->item.unitPrice * s->item.units;
+
+        s = s->next;
+    }
+    s = ls->head;
+    profit = revenue - cost;
+    ColumnLength len = maxCoLen(ls);
+    int lenRev = len.idL + len.nameL / 2 - 8, lenCost = len.nameL % 2 + len.nameL / 2 + len.catgL - 6, lenProf = len.priceL + len.unitL - 6;
+    std::cout << "| Revenue: $" << std::setw(lenRev) << revenue << " | Cost: $" << std::setw(lenCost) << cost << " | Profit: $" << std::setw(lenProf) << profit << " |\n";
+    std::cout << "|";
+    // topCover(" ", '_', lenRev + 10);
+    // std::cout << " |";
+    // topCover(" ", '_', lenCost + 8);
+    // std::cout << " |";
+    // topCover(" ", '_', lenProf + 8);
+    topCover(" ", '_',73);
+    std::cout << " |";
 }
