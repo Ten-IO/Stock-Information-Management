@@ -153,7 +153,7 @@ void __createCase()
     Item item;
     acceptingInput(item);
     ls->addItem(item);
-    PRODUCTLOG.writeLog(item.id, item.name, item.units, AUTH.usr, FileLog::LogLevel::IMPORT);
+    PRODUCTLOG.writeLog(item.id, item.name, item.units, item.unitPrice, AUTH.usr, FileLog::LogLevel::IMPORT);
 }
 
 void __readCase()
@@ -215,56 +215,61 @@ void __updateCase()
 
 void __deleteCase()
 {
-    std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
-    std::cout << "      1. By Position       : specific position in table\n";
-    std::cout << "      2. By ID             : product ID\n";
-    std::cout << "      3. By Name           : product Name\n";
-    std::cout << "      0. Exit feature      : go back to main menu\n";
-    std::cout << "   =============================================================================\n";
-    inputBox(state);
-    choice = readInt("Delete Feature: ");
-    switch (choice)
+    if (AUTH.role == Role::ADMIN)
     {
-    case 1:
-    {
-        int pos;
-        std::cout << "\n      == Delete a products from Stock ==\n";
+        std::cout << "\n   ----------------------------------- Menu -----------------------------------\n";
+        std::cout << "      1. By Position       : specific position in table\n";
+        std::cout << "      2. By ID             : product ID\n";
+        std::cout << "      3. By Name           : product Name\n";
+        std::cout << "      0. Exit feature      : go back to main menu\n";
+        std::cout << "   =============================================================================\n";
         inputBox(state);
-        pos = readInt("Enter product's position: ") - 1;
+        choice = readInt("Delete Feature: ");
+        switch (choice)
+        {
+        case 1:
+        {
+            int pos;
+            std::cout << "\n      == Delete a products from Stock ==\n";
+            inputBox(state);
+            pos = readInt("Enter product's position: ") - 1;
 
-        if (!ls->deleteByPos(pos))
-            std::cout << "\n[!] Not found - current index " << ls->n << "\n";
-        else
-            std::cout << "\n[-] Product deleted\n";
-        break;
-    }
-    case 2:
-    {
-        std::cout << "\n      == Delete a products from Stock ==\n";
-        inputBox(state);
-        int id = readInt("Enter product's id: ");
+            if (!ls->deleteByPos(pos))
+                std::cout << "\n[!] Not found - current index " << ls->n << "\n";
+            else
+                std::cout << "\n[-] Product deleted\n";
+            break;
+        }
+        case 2:
+        {
+            std::cout << "\n      == Delete a products from Stock ==\n";
+            inputBox(state);
+            int id = readInt("Enter product's id: ");
 
-        if (ls->deleteByID(id))
-            std::cout << "\n[-] Deleted found\n";
-        else
-            std::cout << "\n[!] Position out of Bound\n";
-        break;
-    }
-    case 3:
-    {
-        std::cout << "\n      == Delete a products from Stock ==\n";
-        inputBox(state);
-        std::string name = readStr("Enter product's name: ");
+            if (ls->deleteByID(id))
+                std::cout << "\n[-] Deleted found\n";
+            else
+                std::cout << "\n[!] Position out of Bound\n";
+            break;
+        }
+        case 3:
+        {
+            std::cout << "\n      == Delete a products from Stock ==\n";
+            inputBox(state);
+            std::string name = readStr("Enter product's name: ");
 
-        if (ls->deleteByName(name))
-            std::cout << "\n[-] Deleted found\n";
-        else
-            std::cout << "\n[!] Product name not found - try search first\n";
-        break;
+            if (ls->deleteByName(name))
+                std::cout << "\n[-] Deleted found\n";
+            else
+                std::cout << "\n[!] Product name not found - try search first\n";
+            break;
+        }
+        default:
+            break;
+        }
     }
-    default:
-        break;
-    }
+    else
+        std::cerr << "\n[!] Cannot access DELETE feature, YOU ARE NOT ADMIN!\n";
 }
 
 void __searchCase()
@@ -395,13 +400,14 @@ void __exportCase()
     case 1:
     {
         int id, units;
+        double price;
         std::string name;
         std::cout << "\n      == Export a product ==\n";
         inputBox(state);
         id = readInt("Enter ID: ");
-        if (exportByID(ls, id, name, units))
+        if (exportByID(ls, id, name, units, price))
         {
-            PRODUCTLOG.writeLog(id, name, units, AUTH.usr, FileLog::EXPORT);
+            PRODUCTLOG.writeLog(id, name, units, price, AUTH.usr, FileLog::EXPORT);
             std::cout << "\n[+] Update userlog\n";
         }
         else
@@ -412,13 +418,14 @@ void __exportCase()
     case 2:
     {
         int id, units;
+        double price;
         std::string name;
         std::cout << "\n      == Export a product ==\n";
         inputBox(state);
         name = readStr("Product name: ");
-        if (exportByID(ls, id, name, units))
+        if (exportByID(ls, id, name, units, price))
         {
-            PRODUCTLOG.writeLog(id, name, units, AUTH.usr, FileLog::EXPORT);
+            PRODUCTLOG.writeLog(id, name, units, price, AUTH.usr, FileLog::EXPORT);
             std::cout << "\n[+] Update userlog\n";
         }
         else
@@ -426,6 +433,9 @@ void __exportCase()
         break;
     }
 
+    case 3:
+        std::cerr << "\n[+] In progress, feature will be add in the future\n";
+        break;
     default:
         break;
     }

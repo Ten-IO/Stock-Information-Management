@@ -4,7 +4,7 @@
 #include "StockList.h"
 #include "DisplayManager.h"
 
-bool exportByID(List *ls, int &id, std::string &nameOut, int &qtyOut)
+bool exportByID(List *ls, int &id, std::string &name, int &qtyOut, double &price)
 {
 
     if (ls == nullptr || ls->head == nullptr)
@@ -45,8 +45,11 @@ bool exportByID(List *ls, int &id, std::string &nameOut, int &qtyOut)
         return false;
     }
 
-    Item exportedItem = current->item;
-    exportedItem.units = exportQty;
+    inputBox(1);
+    price = readDouble("Export Price Per Unit: ");
+
+    Item ExportItem = current->item;
+    ExportItem.units = exportQty;
 
     current->item.units -= exportQty;
 
@@ -68,14 +71,14 @@ bool exportByID(List *ls, int &id, std::string &nameOut, int &qtyOut)
         ls->n--;
     }
 
-    nameOut = exportedItem.name;
+    name = ExportItem.name;
     qtyOut = exportQty;
 
-    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item ID " << id << ".\n";
+    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item " << id << " - " << name << ".\n";
     return true;
 }
 
-bool exportByName(List *ls, int &id, std::string &name, int &qtyOut)
+bool exportByName(List *ls, int &id, std::string &name, int &qtyOut, double &price)
 {
 
     if (ls == nullptr || ls->head == nullptr)
@@ -116,6 +119,9 @@ bool exportByName(List *ls, int &id, std::string &name, int &qtyOut)
         return false;
     }
 
+    inputBox(1);
+    price = readDouble("Export Price Per Unit: ");
+
     Item exportedItem = current->item;
     exportedItem.units = exportQty;
 
@@ -142,6 +148,11 @@ bool exportByName(List *ls, int &id, std::string &name, int &qtyOut)
     name = exportedItem.name;
     qtyOut = exportQty;
 
-    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item name " <<id<<" - "<< name << ".\n";
+    std::cout << "\n[-] Exported " << exportQty << " unit(s) of item " << id << " - " << name << ".\n";
     return true;
+}
+
+void reportList(List *ls)
+{
+
 }

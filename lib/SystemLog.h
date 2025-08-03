@@ -47,7 +47,7 @@ public:
         EXPORT,
         INFO,
         WARNING,
-        ERROR
+        ERR,
     };
 
     /**
@@ -81,7 +81,7 @@ public:
             return "info";
         case LogLevel::WARNING:
             return "warning";
-        case LogLevel::ERROR:
+        case LogLevel::ERR:
             return "ERROR";
         default:
             return "[!] Faulty LogLvL";
@@ -119,9 +119,9 @@ public:
         return 1;
     }
 
-    void writeLog(const int &id, const std::string &name, const int &units, const std::string &user, LogLevel LOG)
+    void writeLog(int id, const std::string &name, int units, const double &price, const std::string &user, LogLevel LOG)
     {
-        const std::string LOG_HEADER[] = {"id", "product name", "units", "user", "activity", "date", "time"};
+        const std::string LOG_HEADER[] = {"id", "product name", "units", "export price", "activity", "user", "date", "time"};
         const size_t LOG_HEADER_SZ = sizeof(LOG_HEADER) / sizeof(LOG_HEADER[0]);
 
         std::ofstream WriteFile(fileName, std::ios::app);
@@ -131,25 +131,32 @@ public:
         std::getline(ReadFile, line);
         if (!checkHeader(line, LOG_HEADER, LOG_HEADER_SZ))
         {
+            std::ofstream NewFile(fileName);
+            std::cerr << "\n[!] Wrong header: " << line << "\n[!] Cleaning File - Initialize new one";
+
             for (size_t i = 0; i < LOG_HEADER_SZ; ++i)
             {
-                WriteFile << LOG_HEADER[i];
+                NewFile << LOG_HEADER[i];
                 if (i + 1 < LOG_HEADER_SZ)
-                    WriteFile << ",";
+                    NewFile << ",";
             }
-            WriteFile << "\n";
+            NewFile << "\n";
+            NewFile.close();
         }
+        ReadFile.close();
 
         if (!WriteFile.is_open())
         {
-            std::cerr << "[!] Error: Could not open " << fileName << ".csv\n";
+            std::cerr << "\n[!] Error: Could not open " << fileName << ".csv\n";
             return;
         }
 
         std::string dateStr, timeStr;
         getCurrentDateTime(dateStr, timeStr);
 
-        WriteFile << id << "," << name << "," << units << "," << user << "," << levelToStr(LOG) << "," << dateStr << "," << timeStr << "\n";
+        WriteFile << id << "," << name << "," << units << "," << price << "," << levelToStr(LOG) << "," << user<<','<< dateStr << "," << timeStr << "\n";
         WriteFile.close();
     }
+
+  
 };
