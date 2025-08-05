@@ -449,7 +449,7 @@ void __exportCase()
             else
                 std::cout << "\n[!] List is empty, cannot parse well.\n";
         }
-        catch (std::exception e)
+        catch (const std::exception &e)
         {
             std::cerr << "\n[!] Exception: " << e.what() << '\n';
             std::cerr.flush();
