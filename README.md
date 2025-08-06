@@ -34,7 +34,7 @@
 [x] 10 - Profit & Loss revenue report
 [x] 11 - Product Range List
 [ ] 12 - Log Bugs
-[ ] 13 - Documentation
+[x] 13 - Documentation
 [ ] 14 - Clean & Link Library
 </pre>
 

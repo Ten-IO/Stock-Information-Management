@@ -10,7 +10,7 @@
  * @param row are amount of rows to move up and clean
  * @return to initial point above the starting point of table
  */
-void clearSearchTable(const int &);
+void clearSearchTable(const int &row);
 
 /**
  * @brief minimal numeric finder
