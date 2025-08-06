@@ -9,8 +9,8 @@
 
 - [Awesome Information](#awesome-information)
  [](#)
-- [Sections](#sections)
-  - [Features](#features)
+- [Sections](#sections-)
+  - [Features](#features-)
   - [To-DO](#to-do-)
   - [Folder Structure](#folder-structure-)
   - [Pre-requisite](#pre-requisite)
@@ -83,7 +83,7 @@
     └── unsolved
         └── futureFilePath.cpp
 ________________________________        
-21 files, 3 directories
+35 files, 3 directories
 ```
 
 ## Pre-requisite
