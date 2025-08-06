@@ -31,7 +31,8 @@ $(OBJDIR):
 	@mkdir $@
 
 clean:
-	powershell -c "rm -r $(OBJDIR),$(BINARY) -ea ignore"
+	@powershell -c "rm -r $(OBJDIR),$(BINARY) -ea ignore"
+	@echo [-] clean: $(OBJDIR), $(BINARY)
 
 # ignore check state - to strict exec
-.PHONY: all clean
+.PHONY: all quick clean

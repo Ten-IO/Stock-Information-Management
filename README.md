@@ -35,7 +35,7 @@
 [x] 11 - Product Range List
 [ ] 12 - Log Bugs
 [x] 13 - Documentation
-[ ] 14 - Clean & Link Library
+[x] 14 - Clean & Link Library
 </pre>
 
 ## Folder Structure 🔖
@@ -43,26 +43,40 @@
 .
 ├── item_chaos.csv
 ├── lib
+│   ├── Benchmark.cpp
 │   ├── Benchmark.h
+│   ├── DisplayManager.cpp
 │   ├── DisplayManager.h
+│   ├── FileManager.cpp
 │   ├── FileManager.h
 │   ├── Item.h
+│   ├── label.cpp
 │   ├── label.h
+│   ├── modifier.cpp
 │   ├── modifier.h
-│   ├── prototypecreator.h
+│   ├── Search.cpp
 │   ├── Search.h
+│   ├── SortHelper.cpp
 │   ├── SortHelper.h
+│   ├── StockList.cpp
 │   ├── StockList.h
-│   └── SystemLog.h
+│   ├── SystemLog.cpp
+│   ├── SystemLog.h
+│   ├── User.cpp
+│   └── User.h
 ├── main.cpp
 ├── Makefile
 ├── README.md
 └── test
+    ├── animated-test.cpp
     ├── ansii-test.cpp
+    ├── cerr_cout-test.cpp
     ├── class-stock.cpp
+    ├── export-reader.cpp
     ├── header-ptr-test.cpp
     ├── leven_test.cpp
     ├── read-test.cpp
+    ├── timecall-test.cpp
     └── unsolved
         └── futureFilePath.cpp
 ________________________________        
