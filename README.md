@@ -11,6 +11,9 @@
  [](#)
 - [Sections](#sections)
   - [Features](#features)
+  - [To-DO](#to-do-)
+  - [Folder Structure](#folder-structure-)
+  - [Pre-requisite](#pre-requisite)
   - [Build & Run](#build---run)
   - [Diagram ⚡](#diagram-)
   - [Contributors 🚑](#contributors-)
@@ -83,15 +86,17 @@ ________________________________
 21 files, 3 directories
 ```
 
+## Pre-requisite
+- MUST HAVE [MSYS2](https://www.msys2.org/) installed - native Windows GNU environment 
+
 ## Build - Run
 \+ Window MSYS2, from [Visual Studio code](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64-on-windows "Install C/C++ toolchain"):
-- MUST HAVE [MSYS2](https://www.msys2.org/) installed - native Windows GNU environment 
-- ensure `mingw toolchain` is installed in MSYS2,  to compile C++ code. Use `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain` in MSYS2
+- Ensure `mingw toolchain` is installed in MSYS2,  to compile C++ code. Use `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain` in MSYS2
 - run `mingw32-make` in project folder `Stock Information System`
 
 ## Diagram ⚡
 In development use : [drawio](https://app.diagrams.net/#G1M2pyj16JH6AFf1WA127I3CwtmYwmrxLA#%7B%22pageId%22%3A%22eA5-_UtGZlGp_2mV5G3s%22%7D)
 
 ## Contributors 🚑
-- [Theany](https://github.com/Sotheany-web) : 
-- [Soklang](https://github.com/11Soklang) : 
+- [Theany](https://github.com/Sotheany-web) : Logical Dev - on Update & Delete of CRUD, Menu Designer
+- [Soklang](https://github.com/11Soklang) : Security Dev - mini hash concept, FileManager
