@@ -95,7 +95,8 @@ ________________________________
 - run `mingw32-make` in project folder `Stock Information System`
 
 ## Diagram ⚡
-In development use : [drawio](https://app.diagrams.net/#G1M2pyj16JH6AFf1WA127I3CwtmYwmrxLA#%7B%22pageId%22%3A%22eA5-_UtGZlGp_2mV5G3s%22%7D)
+In development use : 
+![flowchart](images/flowchart.png)
 
 ## Contributors 🚑
 - [Theany](https://github.com/Sotheany-web) : Logical Dev - on Update & Delete of CRUD, Menu Designer
