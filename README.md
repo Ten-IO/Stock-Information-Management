@@ -23,6 +23,12 @@
 - User Interface - sleek table
 - File creation - CSV format, import, export
 
+## Screenshot 📸
+```
+Menu: sample after login into the program..
+```
+![sample menu](images/menu_sample.png)
+
 ## To-DO 🔧
 <pre>
 [x] 1  - _Account_ & User Management
