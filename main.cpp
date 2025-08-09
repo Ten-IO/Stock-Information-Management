@@ -28,8 +28,6 @@ FileLog PRODUCTLOG = FileLog("product.csv");
 
 int main()
 {
-    setEnableAnsi();
-    setCharCode();
     while (!AUTH.isConfirm)
     {
         std::cout << "\n   ---------------------------------- Login -----------------------------------\n";

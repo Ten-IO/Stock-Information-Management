@@ -3,6 +3,8 @@
 User::User(const std::string fileName)
 {
     __fileName = fileName;
+    setEnableAnsi();
+    setCharCode();
     if (!fileExist(fileName))
     {
         std::ofstream writeFile(fileName, std::ios::app);
