@@ -180,13 +180,13 @@ void reportList(List *ls)
     profit = revenue - cost;
     ColumnLength len = maxCoLen(ls);
     int lenRev = len.idL + len.nameL / 2 - 8, lenCost = len.nameL % 2 + len.nameL / 2 + len.catgL - 6, lenProf = len.priceL + len.unitL - 6;
-    std::cout << "| Revenue: $" << std::setw(lenRev) << revenue << " | Cost: $" << std::setw(lenCost) << cost << " | Profit: $" << std::setw(lenProf) << profit << " |\n";
+    std::cout << "| Revenue: $" << std::setw(lenRev) << std::setprecision(2) << revenue << " | Cost: $" << std::setw(lenCost) << cost << " | Profit: $" << std::setw(lenProf) << profit << " |\n";
     std::cout << "|";
     // topCover(" ", '_', lenRev + 10);
     // std::cout << " |";
     // topCover(" ", '_', lenCost + 8);
     // std::cout << " |";
     // topCover(" ", '_', lenProf + 8);
-    topCover(" ", '_', 73);
+    topCover(" ", '_', lenRev + lenCost + lenProf + 32);
     std::cout << " |";
 }
