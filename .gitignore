@@ -3,3 +3,9 @@
 *.bkp
 *.onhail
 *.csv
+!*_chaos.csv
+*.exe
+docs/
+images/icon.png
+doxyfile
+shared/

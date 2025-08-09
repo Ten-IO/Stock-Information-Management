@@ -82,7 +82,7 @@ std::string readStr(const std::string &prompt)
         std::getline(std::cin, tmp);
         for (char c : tmp)
         {
-            if (ispunct(c))
+            if (ispunct(c)&&c!='-'&&c!='['&&c!=']')
             {
                 hasPunc = true;
                 break;
