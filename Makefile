@@ -10,6 +10,7 @@ CXX     =g++
 OPTS    =
 FLAGS   =-Wall -Wextra -g3 -I$(INCDIR) $(OPTS)
 STATIC  =-static -static-libstdc++
+ICON    =$(OBJDIR)/icon.o
 
 
 all: $(BINARY)
@@ -17,10 +18,10 @@ all: $(BINARY)
 quick:
 	$(CXX) $(FLAGS) -o $(BINARY) $(MAIN) $(CXXFILES)
 
-$(BINARY): $(OBJECTS)
+$(BINARY): $(OBJECTS) | $(ICON)
 	@echo.
 	@echo     [++ Linking ++]
-	$(CXX) $(FLAGS) -o $@ $(MAIN) $^
+	$(CXX) $(FLAGS) -o $@ $(MAIN) $^ $(ICON)
 	@echo   [++ Build Completed ++]
 
 $(OBJDIR)/%.o: lib/%.cpp | $(OBJDIR)
@@ -30,6 +31,8 @@ $(OBJDIR)/%.o: lib/%.cpp | $(OBJDIR)
 $(OBJDIR):
 	@mkdir $@
 
+$(ICON):
+	windres images/rsrc.rc -o $@
 clean:
 	@powershell -c "rm -r $(OBJDIR),$(BINARY) -ea ignore"
 	@echo [-] clean: $(OBJDIR), $(BINARY)
