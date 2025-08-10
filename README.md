@@ -25,9 +25,18 @@
 
 ## Screenshot 📸
 ```
+Login screen
+```
+![sample login](images/user_management.png)
+```
 Menu: sample after login into the program..
 ```
 ![sample menu](images/menu_sample.png)
+```
+Tabular Display
+```
+![sample table](images/sleek_table.png)
+
 
 ## To-DO 🔧
 <pre>
